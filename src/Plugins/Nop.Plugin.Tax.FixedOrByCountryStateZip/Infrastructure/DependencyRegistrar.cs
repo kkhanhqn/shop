@@ -1,6 +1,5 @@
 using Autofac;
 using Autofac.Core;
-using Nop.Core.Caching;
 using Nop.Core.Configuration;
 using Nop.Core.Data;
 using Nop.Core.Infrastructure;
@@ -25,7 +24,7 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Infrastructure
         /// <param name="builder">Container builder</param>
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        public virtual void Register(NopContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
             //we cache presentation models between requests
             builder.RegisterType<FixedOrByCountryStateZipTaxProvider>().As<ITaxProvider>().InstancePerLifetimeScope();
@@ -33,7 +32,7 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Infrastructure
             builder.RegisterType<CountryStateZipService>().As<ICountryStateZipService>().InstancePerLifetimeScope();
 
             //data context
-            this.RegisterPluginDataContext<CountryStateZipObjectContext>(builder, "nop_object_context_tax_country_state_zip");
+            builder.RegisterPluginDataContext<CountryStateZipObjectContext>("nop_object_context_tax_country_state_zip");
 
             //override required repository with our custom context
             builder.RegisterType<EfRepository<TaxRate>>()

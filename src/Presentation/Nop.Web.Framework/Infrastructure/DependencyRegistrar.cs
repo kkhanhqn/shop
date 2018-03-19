@@ -66,7 +66,7 @@ namespace Nop.Web.Framework.Infrastructure
         /// <param name="builder">Container builder</param>
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        public virtual void Register(NopContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
             //web helper
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();

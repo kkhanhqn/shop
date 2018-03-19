@@ -6,6 +6,7 @@ using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Infrastructure;
+using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Core.Plugins;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
@@ -236,6 +237,26 @@ namespace Nop.Web.Areas.Admin.Helpers
                     Level = SystemWarningLevel.Pass,
                     Text = localizationService.GetResource("Admin.System.Warnings.FilePermission.OK")
                 });
+
+            if (Singleton<NopContainerBuilder>.Instance.HasRegisteredCollisions)
+            {
+                foreach (var collision in Singleton<NopContainerBuilder>.Instance.GetRegisteredCollisions)
+                {
+                    model.Add(new SystemWarningModel
+                    {
+                        Level = SystemWarningLevel.Fail,
+                        Text = string.Format(localizationService.GetResource("Admin.System.Warnings.RegisteredCollisions"), collision.InterfaceName, collision.ModuleNamesString, collision.UsedModule)
+                    });
+                }
+            }
+            else
+            {
+                model.Add(new SystemWarningModel
+                {
+                    Level = SystemWarningLevel.Pass,
+                    Text = string.Format(localizationService.GetResource("Admin.System.Warnings.RegisteredCollisions.OK"))
+                });
+            }
 
             return model;
         }

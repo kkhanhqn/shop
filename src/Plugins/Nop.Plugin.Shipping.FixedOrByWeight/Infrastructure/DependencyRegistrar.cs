@@ -23,12 +23,12 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Infrastructure
         /// <param name="builder">Container builder</param>
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        public virtual void Register(NopContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
             builder.RegisterType<ShippingByWeightService>().As<IShippingByWeightService>().InstancePerLifetimeScope();
 
             //data context
-            this.RegisterPluginDataContext<ShippingByWeightObjectContext>(builder, "nop_object_context_shipping_weight_zip");
+            builder.RegisterPluginDataContext<ShippingByWeightObjectContext>("nop_object_context_shipping_weight_zip");
 
             //override required repository with our custom context
             builder.RegisterType<EfRepository<ShippingByWeightRecord>>()

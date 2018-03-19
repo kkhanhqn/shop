@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +27,7 @@ namespace Nop.Core.Infrastructure
         /// <summary>
         /// Gets or sets service provider
         /// </summary>
-        private IServiceProvider _serviceProvider { get; set; }
+        private IServiceProvider _serviceProvider;
 
         #endregion
 
@@ -74,7 +73,7 @@ namespace Nop.Core.Infrastructure
         /// <param name="typeFinder">Type finder</param>
         protected virtual IServiceProvider RegisterDependencies(NopConfig nopConfig, IServiceCollection services, ITypeFinder typeFinder)
         {
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new NopContainerBuilder();
 
             //register engine
             containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
@@ -100,6 +99,9 @@ namespace Nop.Core.Infrastructure
 
             //create service provider
             _serviceProvider = new AutofacServiceProvider(containerBuilder.Build());
+
+            Singleton<NopContainerBuilder>.Instance = containerBuilder;
+
             return _serviceProvider;
         }
 

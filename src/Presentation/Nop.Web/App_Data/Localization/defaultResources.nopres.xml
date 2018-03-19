@@ -13635,6 +13635,12 @@
   <LocaleResource Name="Admin.System.Warnings.PrimaryCurrency.Set">
     <Value>Primary store currency is set</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.System.Warnings.RegisteredCollisions">
+    <Value>Loading of "{0}" interface has conflicts (libraries: {1}). Only one will be used (from "{2}" library)</Value>
+  </LocaleResource>    
+  <LocaleResource Name="Admin.System.Warnings.RegisteredCollisions.OK">
+    <Value>All registered types are OK</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.System.Warnings.URL.Match">
     <Value>Specified store URL matches this store URL</Value>
   </LocaleResource>

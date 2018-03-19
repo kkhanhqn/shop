@@ -23,12 +23,12 @@ namespace Nop.Plugin.Pickup.PickupInStore.Infrastructure
         /// <param name="builder">Container builder</param>
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        public virtual void Register(NopContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
             builder.RegisterType<StorePickupPointService>().As<IStorePickupPointService>().InstancePerLifetimeScope();
 
             //data context
-            this.RegisterPluginDataContext<StorePickupPointObjectContext>(builder, "nop_object_context_pickup_in_store-pickup");
+            builder.RegisterPluginDataContext<StorePickupPointObjectContext>("nop_object_context_pickup_in_store-pickup");
 
             //override required repository with our custom context
             builder.RegisterType<EfRepository<StorePickupPoint>>()

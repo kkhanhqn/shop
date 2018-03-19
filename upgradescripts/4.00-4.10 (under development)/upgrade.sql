@@ -644,6 +644,12 @@ set @resources='
   <LocaleResource Name="ShoppingCart.RequiredProductUpdateWarning">
     <Value>This product is required in the quantity of {0}</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.System.Warnings.RegisteredCollisions.OK">
+    <Value>All registered types are OK</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.Warnings.RegisteredCollisions">
+    <Value>Loading of "{0}" interface has conflicts (libraries: {1}). Only one will be used (from "{2}" library)</Value>
+  </LocaleResource>    
 </Language>
 '
 
