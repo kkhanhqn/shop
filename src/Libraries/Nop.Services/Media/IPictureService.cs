@@ -29,10 +29,10 @@ namespace Nop.Services.Media
         /// <param name="targetSize">The target picture size (longest side)</param>
         /// <param name="defaultPictureType">Default picture type</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
         string GetDefaultPictureUrl(int targetSize = 0, 
-            PictureType defaultPictureType = PictureType.Entity,
-            string storeLocation = null);
+            PictureType defaultPictureType = PictureType.Entity, string storeLocation = null, bool encodeUrl = true);
 
         /// <summary>
         /// Get a picture URL
@@ -42,12 +42,10 @@ namespace Nop.Services.Media
         /// <param name="showDefaultPicture">A value indicating whether the default picture is shown</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
-        string GetPictureUrl(int pictureId, 
-            int targetSize = 0,
-            bool showDefaultPicture = true, 
-            string storeLocation = null, 
-            PictureType defaultPictureType = PictureType.Entity);
+        string GetPictureUrl(int pictureId, int targetSize = 0, bool showDefaultPicture = true, 
+            string storeLocation = null, PictureType defaultPictureType = PictureType.Entity, bool encodeUrl = true);
 
         /// <summary>
         /// Get a picture URL
@@ -57,12 +55,10 @@ namespace Nop.Services.Media
         /// <param name="showDefaultPicture">A value indicating whether the default picture is shown</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
-        string GetPictureUrl(Picture picture, 
-            int targetSize = 0,
-            bool showDefaultPicture = true, 
-            string storeLocation = null, 
-            PictureType defaultPictureType = PictureType.Entity);
+        string GetPictureUrl(Picture picture, int targetSize = 0, bool showDefaultPicture = true, 
+            string storeLocation = null, PictureType defaultPictureType = PictureType.Entity, bool encodeUrl = true);
 
         /// <summary>
         /// Get a picture local path

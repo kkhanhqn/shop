@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using ImageResizer;
 using Microsoft.AspNetCore.Hosting;
@@ -362,7 +363,7 @@ namespace Nop.Services.Media
         /// <returns>Result</returns>
         public virtual string GetPictureSeName(string name)
         {
-            return SeoExtensions.GetSeName(name, true, false);
+            return SeoExtensions.GetSeName(name);
         }
 
         /// <summary>
@@ -371,11 +372,13 @@ namespace Nop.Services.Media
         /// <param name="targetSize">The target picture size (longest side)</param>
         /// <param name="defaultPictureType">Default picture type</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
         public virtual string GetDefaultPictureUrl(int targetSize = 0,
-            PictureType defaultPictureType = PictureType.Entity,
-            string storeLocation = null)
+            PictureType defaultPictureType = PictureType.Entity, string storeLocation = null, bool encodeUrl = true)
         {
+            var url = string.Empty;
+
             string defaultImageFileName;
             switch (defaultPictureType)
             {
@@ -389,18 +392,14 @@ namespace Nop.Services.Media
             }
             var filePath = GetPictureLocalPath(defaultImageFileName);
             if (!File.Exists(filePath))
-            {
-                return "";
-            }
-
+                return url;
 
             if (targetSize == 0)
             {
-                var url = (!string.IsNullOrEmpty(storeLocation)
+                url = (!string.IsNullOrEmpty(storeLocation)
                                  ? storeLocation
                                  : _webHelper.GetStoreLocation())
                                  + "images/" + defaultImageFileName;
-                return url;
             }
             else
             {
@@ -426,9 +425,14 @@ namespace Nop.Services.Media
                         }
                     }
                 }
-                var url = GetThumbUrl(thumbFileName, storeLocation);
-                return url;
+                url = GetThumbUrl(thumbFileName, storeLocation);
             }
+
+            //encode URL
+            if (encodeUrl)
+                url = Uri.EscapeUriString(WebUtility.UrlDecode(url));
+
+            return url;
         }
 
         /// <summary>
@@ -439,15 +443,13 @@ namespace Nop.Services.Media
         /// <param name="showDefaultPicture">A value indicating whether the default picture is shown</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
-        public virtual string GetPictureUrl(int pictureId,
-            int targetSize = 0,
-            bool showDefaultPicture = true,
-            string storeLocation = null,
-            PictureType defaultPictureType = PictureType.Entity)
+        public virtual string GetPictureUrl(int pictureId, int targetSize = 0, bool showDefaultPicture = true,
+            string storeLocation = null, PictureType defaultPictureType = PictureType.Entity, bool encodeUrl = true)
         {
             var picture = GetPictureById(pictureId);
-            return GetPictureUrl(picture, targetSize, showDefaultPicture, storeLocation, defaultPictureType);
+            return GetPictureUrl(picture, targetSize, showDefaultPicture, storeLocation, defaultPictureType, encodeUrl);
         }
 
         /// <summary>
@@ -458,12 +460,10 @@ namespace Nop.Services.Media
         /// <param name="showDefaultPicture">A value indicating whether the default picture is shown</param>
         /// <param name="storeLocation">Store location URL; null to use determine the current store location automatically</param>
         /// <param name="defaultPictureType">Default picture type</param>
+        /// <param name="encodeUrl">Whether to encode URL</param>
         /// <returns>Picture URL</returns>
-        public virtual string GetPictureUrl(Picture picture,
-            int targetSize = 0,
-            bool showDefaultPicture = true,
-            string storeLocation = null,
-            PictureType defaultPictureType = PictureType.Entity)
+        public virtual string GetPictureUrl(Picture picture, int targetSize = 0, bool showDefaultPicture = true,
+            string storeLocation = null, PictureType defaultPictureType = PictureType.Entity, bool encodeUrl = true)
         {
             var url = string.Empty;
             byte[] pictureBinary = null;
@@ -473,7 +473,7 @@ namespace Nop.Services.Media
             {
                 if (showDefaultPicture)
                 {
-                    url = GetDefaultPictureUrl(targetSize, defaultPictureType, storeLocation);
+                    url = GetDefaultPictureUrl(targetSize, defaultPictureType, storeLocation, encodeUrl);
                 }
                 return url;
             }
@@ -576,6 +576,11 @@ namespace Nop.Services.Media
                 
             }
             url = GetThumbUrl(thumbFileName, storeLocation);
+
+            //encode URL
+            if (encodeUrl)
+                url = Uri.EscapeUriString(WebUtility.UrlDecode(url));
+
             return url;
         }
 
@@ -588,7 +593,7 @@ namespace Nop.Services.Media
         /// <returns></returns>
         public virtual string GetThumbLocalPath(Picture picture, int targetSize = 0, bool showDefaultPicture = true)
         {
-            var url = GetPictureUrl(picture, targetSize, showDefaultPicture);
+            var url = GetPictureUrl(picture, targetSize, showDefaultPicture, encodeUrl: false);
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
