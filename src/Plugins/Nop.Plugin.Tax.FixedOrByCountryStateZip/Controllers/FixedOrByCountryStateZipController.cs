@@ -68,7 +68,12 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Controllers
             if (!taxCategories.Any())
                 return Content("No tax categories can be loaded");
 
-            var model = new ConfigurationModel { CountryStateZipEnabled = _countryStateZipSettings.CountryStateZipEnabled };
+            var model = new ConfigurationModel
+            {
+                CountryStateZipEnabled = _countryStateZipSettings.CountryStateZipEnabled,
+                ShippingTaxDependsOnShoppingCart = _countryStateZipSettings.ShippingTaxDependsOnShoppingCart
+            };
+
             //stores
             model.AvailableStores.Add(new SelectListItem { Text = "*", Value = "0" });
             var stores = _storeService.GetAllStores();
@@ -136,12 +141,25 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageTaxSettings))
                 return Content("Access denied");
-            
+
             _settingService.SetSetting(string.Format(FixedOrByCountryStateZipDefaults.FixedRateSettingsKey, model.TaxCategoryId), model.Rate);
 
             return new NullJsonResult();
         }
-        
+
+        [HttpPost]
+        public IActionResult SaveShippingTaxDependsOnShoppingCart(bool value)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageTaxSettings))
+                return Content("Access denied");
+
+            //save settings
+            _countryStateZipSettings.ShippingTaxDependsOnShoppingCart = value;
+            _settingService.SaveSetting(_countryStateZipSettings);
+
+            return Json(new { Result = true });
+        }
+
         #endregion
 
         #region Tax by country/state/zip
@@ -184,7 +202,7 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageTaxSettings))
                 return Content("Access denied");
-            
+
             _taxRateService.InsertTaxRate(new TaxRate
             {
                 StoreId = model.AddStoreId,

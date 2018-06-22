@@ -2,10 +2,13 @@
 using System.Linq;
 using Nop.Core;
 using Nop.Core.Caching;
+using Nop.Core.Domain.Orders;
+using Nop.Core.Domain.Tax;
 using Nop.Core.Plugins;
 using Nop.Plugin.Tax.FixedOrByCountryStateZip.Data;
 using Nop.Plugin.Tax.FixedOrByCountryStateZip.Infrastructure.Cache;
 using Nop.Plugin.Tax.FixedOrByCountryStateZip.Services;
+using Nop.Services.Catalog;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Tax;
@@ -22,11 +25,14 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
         private readonly CountryStateZipObjectContext _objectContext;
         private readonly FixedOrByCountryStateZipTaxSettings _countryStateZipSettings;
         private readonly ICountryStateZipService _taxRateService;
+        private readonly IPriceCalculationService _priceCalculationService;
         private readonly ISettingService _settingService;
         private readonly IStaticCacheManager _cacheManager;
         private readonly IStoreContext _storeContext;
         private readonly ITaxCategoryService _taxCategoryService;
+        private readonly ITaxService _taxService;
         private readonly IWebHelper _webHelper;
+        private readonly TaxSettings _taxSettings;
 
         #endregion
 
@@ -35,20 +41,26 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
         public FixedOrByCountryStateZipTaxProvider(CountryStateZipObjectContext objectContext,
             FixedOrByCountryStateZipTaxSettings countryStateZipSettings,
             ICountryStateZipService taxRateService,
+            IPriceCalculationService priceCalculationService,
             ISettingService settingService,
             IStaticCacheManager cacheManager,
             IStoreContext storeContext,
             ITaxCategoryService taxCategoryService,
-            IWebHelper webHelper)
+            ITaxService taxService,
+            IWebHelper webHelper,
+            TaxSettings taxSettings)
         {
             this._objectContext = objectContext;
             this._countryStateZipSettings = countryStateZipSettings;
             this._taxRateService = taxRateService;
+            this._priceCalculationService = priceCalculationService;
             this._settingService = settingService;
             this._cacheManager = cacheManager;
             this._storeContext = storeContext;
             this._taxCategoryService = taxCategoryService;
+            this._taxService = taxService;
             this._webHelper = webHelper;
+            this._taxSettings = taxSettings;
         }
 
         #endregion
@@ -67,6 +79,26 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
             //the tax rate calculation by fixed rate
             if (!_countryStateZipSettings.CountryStateZipEnabled)
             {
+                //use the special rule for shipping tax when it depends on the shopping cart items (related to EU VAT on postage and delivery)
+                //see details at the https://www.gov.uk/guidance/vat-on-postage-delivery-and-direct-marketing-notice-70024
+                if (calculateTaxRequest.TaxCategoryId > 0 && calculateTaxRequest.TaxCategoryId == _taxSettings.ShippingTaxClassId
+                    && _countryStateZipSettings.ShippingTaxDependsOnShoppingCart)
+                {
+                    //get all tax rates applied to customer shopping cart
+                    var shoppingCart = calculateTaxRequest.Customer.ShoppingCartItems
+                        .Where(item => item.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+                    var taxRates = shoppingCart.Select(shoppingCartItem =>
+                    {
+                        var shoppingCartItemPrice = _priceCalculationService.GetSubTotal(shoppingCartItem);
+                        _taxService.GetProductPrice(shoppingCartItem.Product, shoppingCartItemPrice, calculateTaxRequest.Customer, out decimal taxRate);
+                        return taxRate;
+                    }).ToList();
+
+                    //use max tax rate as the shipping one
+                    result.TaxRate = taxRates.Max();
+                    return result;
+                }
+
                 result.TaxRate = _settingService.GetSettingByKey<decimal>(string.Format(FixedOrByCountryStateZipDefaults.FixedRateSettingsKey, calculateTaxRequest.TaxCategoryId));
                 return result;
             }
@@ -104,7 +136,7 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
 
             //filter by state/province
             var matchedByStateProvince = matchedByStore.Where(taxRate => stateProvinceId == taxRate.StateProvinceId || taxRate.StateProvinceId == 0);
-                
+
             //filter by zip
             var matchedByZip = matchedByStateProvince.Where(taxRate => string.IsNullOrWhiteSpace(taxRate.Zip) || taxRate.Zip.Equals(zip, StringComparison.InvariantCultureIgnoreCase));
 
@@ -118,7 +150,7 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
 
             return result;
         }
-      
+
         /// <summary>
         /// Gets a configuration page URL
         /// </summary>
@@ -157,6 +189,8 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
             this.AddOrUpdatePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.Percentage.Hint", "The tax rate.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.AddRecord", "Add tax rate");
             this.AddOrUpdatePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.AddRecordTitle", "New tax rate");
+            this.AddOrUpdatePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart", "Shipping tax depends on the shopping cart items (EU VAT)");
+            this.AddOrUpdatePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart.Hint", "Check if you deliver goods to customers (delivery is included in the contract) and make an additional charge. In this case the VAT liability of delivered goods is based on the liability of those goods, so shipping tax depends on the shopping cart items. In order to use this functionality you have to set 'Shipping tax category' on Tax settings. If you want to use standard VAT rate for the shipping, uncheck this setting and set rate for 'Shipping tax category' in the table above.");
 
             base.Install();
         }
@@ -197,6 +231,8 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
             this.DeletePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.Percentage.Hint");
             this.DeletePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.AddRecord");
             this.DeletePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.AddRecordTitle");
+            this.DeletePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart");
+            this.DeletePluginLocaleResource("Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart.Hint");
 
             base.Uninstall();
         }

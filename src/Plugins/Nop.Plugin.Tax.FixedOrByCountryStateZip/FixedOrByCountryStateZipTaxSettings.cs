@@ -11,5 +11,10 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip
         /// Gets or sets a value indicating whether the "tax calculation by country & state & zip" method is selected
         /// </summary>
         public bool CountryStateZipEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the shipping tax depends on the shopping cart items (related to EU VAT on postage and delivery)
+        /// </summary>
+        public bool ShippingTaxDependsOnShoppingCart { get; set; }
     }
 }

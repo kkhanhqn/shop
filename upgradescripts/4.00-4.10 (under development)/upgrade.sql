@@ -1241,6 +1241,12 @@ set @resources='
   <LocaleResource Name="Admin.System.Warnings.Errors">
     <Value>The store has some error(s) or warning(s). Please find more information on the Warnings page.</Value>
   </LocaleResource>
+  <LocaleResource Name="Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart">
+    <Value>Shipping tax depends on the shopping cart items (EU VAT)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart.Hint">
+    <Value>Check if you deliver goods to customers (delivery is included in the contract) and make an additional charge. In this case the VAT liability of delivered goods is based on the liability of those goods, so shipping tax depends on the shopping cart items. In order to use this functionality you have to set ''Shipping tax category'' on Tax settings. If you want to use standard VAT rate for the shipping, uncheck this setting and set rate for ''Shipping tax category'' in the table above.</Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -3056,5 +3062,13 @@ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'adminareasettings.checkc
 BEGIN
 	INSERT [Setting] ([Name], [Value], [StoreId])
 	VALUES (N'adminareasettings.checkcopyrightremovalkey', N'true', 0)
+END
+GO
+
+--new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [Name] = N'fixedorbycountrystateziptaxsettings.shippingtaxdependsonshoppingcart')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'fixedorbycountrystateziptaxsettings.shippingtaxdependsonshoppingcart', N'false', 0)
 END
 GO

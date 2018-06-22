@@ -30,6 +30,9 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Models
 
         public bool CountryStateZipEnabled { get; set; }
 
+        [NopResourceDisplayName("Plugins.Tax.FixedOrByCountryStateZip.Fields.ShippingTaxDependsOnShoppingCart")]
+        public bool ShippingTaxDependsOnShoppingCart { get; set; }
+
         public IList<SelectListItem> AvailableStores { get; set; }
         public IList<SelectListItem> AvailableCountries { get; set; }
         public IList<SelectListItem> AvailableStates { get; set; }
