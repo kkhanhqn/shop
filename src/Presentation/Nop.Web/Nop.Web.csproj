@@ -30,6 +30,8 @@
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
 
+    <MvcRazorFilesToCompile Include="**\*.cshtml" Exclude="Plugins\**\*.cshtml;" />
+
     <!-- We copy the entire \Plugins and \Themes directories.
 	    But we ignore cshtml and JSON files to avoid "Duplicate 'Content' items were included" error during publishing.
 	    We also can use "CheckForDuplicateItemsContinueOnError" as per https://github.com/dotnet/sdk/blob/master/src/Tasks/Microsoft.NET.Build.Tasks/build/Microsoft.NET.Sdk.DefaultItems.targets -->
@@ -46,6 +48,10 @@
 
   <ItemGroup>
     <Folder Include="Plugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.2" />
   </ItemGroup>
 
   <!-- This target execute after "Build" target.
