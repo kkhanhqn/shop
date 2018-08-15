@@ -2723,7 +2723,7 @@ GO
 --rename table
 IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ShippingByWeight]') and OBJECTPROPERTY(object_id, N'IsUserTable') = 1)
 BEGIN
-    EXEC sp_RENAME '[dbo].[ShippingByWeight]', 'ShippingByWeightByTotal'
+    EXEC sp_RENAME '[dbo].[ShippingByWeight]', 'ShippingByWeightByTotalRecord'
 END
 GO
 
@@ -3939,5 +3939,12 @@ IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [Name] = N'commonsettings.staticfil
 BEGIN
 	INSERT [Setting] ([Name], [Value], [StoreId])
 	VALUES (N'commonsettings.staticfilescachecontrol', N'public,max-age=604800', 0)
+END
+GO
+
+--rename table
+IF EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ShippingByWeightByTotal]') and OBJECTPROPERTY(object_id, N'IsUserTable') = 1)
+BEGIN
+    EXEC sp_RENAME '[dbo].[ShippingByWeightByTotal]', 'ShippingByWeightByTotalRecord'
 END
 GO
