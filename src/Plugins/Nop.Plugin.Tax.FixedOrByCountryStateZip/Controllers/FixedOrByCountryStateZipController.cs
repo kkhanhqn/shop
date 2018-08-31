@@ -184,7 +184,19 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageTaxSettings))
                 return Content("Access denied");
-            
+
+            //__ Проверка валидности модели
+            if (!ModelState.IsValid)
+            {
+                var Errors = ModelState.Keys
+                .SelectMany(key => ModelState[key].Errors.Select(x => x))
+                .ToList();
+
+                ErrorNotification(Errors[0].ErrorMessage, true);
+
+                return Json(new { Result = false, message = Errors[0].ErrorMessage });
+            }
+
             _taxRateService.InsertTaxRate(new TaxRate
             {
                 StoreId = model.AddStoreId,

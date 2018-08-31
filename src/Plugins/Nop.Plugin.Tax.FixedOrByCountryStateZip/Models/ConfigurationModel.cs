@@ -5,6 +5,7 @@ using Nop.Web.Framework.Models;
 
 namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Models
 {
+    [FluentValidation.Attributes.Validator(typeof(ConfigurationModelValidator))]
     public class ConfigurationModel : BaseNopModel
     {
         public ConfigurationModel()
@@ -34,5 +35,14 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Models
         public IList<SelectListItem> AvailableCountries { get; set; }
         public IList<SelectListItem> AvailableStates { get; set; }
         public IList<SelectListItem> AvailableTaxCategories { get; set; }
+    }
+
+    //__ Валидатор. Должен быть обязательно подключен даже пустой.
+    public partial class ConfigurationModelValidator : Web.Framework.Validators.BaseNopValidator<ConfigurationModel>
+    {
+        public ConfigurationModelValidator(Nop.Services.Localization.ILocalizationService localizationService)
+        {
+
+        }
     }
 }

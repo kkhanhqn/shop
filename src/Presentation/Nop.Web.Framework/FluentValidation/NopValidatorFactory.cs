@@ -2,6 +2,8 @@
 using FluentValidation;
 using FluentValidation.Attributes;
 using Nop.Core.Infrastructure;
+using Nop.Services.Events;
+using Nop.Web.Framework.Events;
 
 namespace Nop.Web.Framework.FluentValidation
 {
@@ -27,6 +29,20 @@ namespace Nop.Web.Framework.FluentValidation
 
             //try to create instance of the validator
             var instance = EngineContext.Current.ResolveUnregistered(validatorAttribute.ValidatorType);
+
+            if (instance != null)
+            {
+                try
+                {
+                    var eventPublisher = EngineContext.Current.Resolve<IEventPublisher>();
+
+                    eventPublisher.ValidatorPrepare(type, instance as IValidator);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
 
             return instance as IValidator;
         }

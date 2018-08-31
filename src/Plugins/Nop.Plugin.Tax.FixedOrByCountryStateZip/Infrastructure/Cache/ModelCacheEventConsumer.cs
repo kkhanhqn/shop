@@ -1,4 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.Validators;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Tax;
 using Nop.Core.Events;
@@ -12,13 +20,15 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Infrastructure.Cache
     /// <summary>
     /// Model cache event consumer (used for caching of presentation layer models)
     /// </summary>
-    public partial class ModelCacheEventConsumer : 
+    public partial class ModelCacheEventConsumer :
         //tax rates
         IConsumer<EntityInsertedEvent<TaxRate>>,
         IConsumer<EntityUpdatedEvent<TaxRate>>,
         IConsumer<EntityDeletedEvent<TaxRate>>,
         //tax category
         IConsumer<EntityDeletedEvent<TaxCategory>>
+
+        ,IConsumer<Web.Framework.Events.ValidatorPreparedEvent>  //__ Поднисался на события
     {
         #region Constants
 
@@ -108,5 +118,112 @@ namespace Nop.Plugin.Tax.FixedOrByCountryStateZip.Infrastructure.Cache
         }
 
         #endregion
+
+        //__ Обработчик события
+        public void HandleEvent(Web.Framework.Events.ValidatorPreparedEvent eventMessage)
+        {
+            var isAddressModel = eventMessage.ModelType.FullName == "Nop.Plugin.Tax.FixedOrByCountryStateZip.Models.ConfigurationModel";
+
+            if (!isAddressModel)
+                return;
+
+            var typeInfo = eventMessage.Validator.GetType().GetTypeInfo();
+
+            var methodInfo = typeInfo.GetMethod("AddRule");
+
+            if (methodInfo != null)
+            {
+
+                var rule = new object[] { new AddressValidationRule() };
+
+                methodInfo.Invoke(eventMessage.Validator, rule);
+            }
+
+        }
+
+        //__ Валидатор
+        private class AddressValidationRule   : IValidationRule
+        {
+            public AddressValidationRule()
+            {
+            }
+
+            public string[] RuleSets { get; set; }
+
+            public IEnumerable<IPropertyValidator> Validators
+            {get;set;}
+
+            private IValidator _AssignedValidator;
+            private bool _ExecuteValidation = true;
+            private Func<string, bool> _Condition;
+
+            public void ConditionalValidatorAssignmentRule(IValidator validator, 
+                Func<string, bool> condition)
+            {
+                _AssignedValidator = validator;
+                _Condition = condition;
+            }
+
+            public void ApplyCondition(
+                Func<object, bool> predicate,
+                ApplyConditionTo applyConditionTo = ApplyConditionTo.AllValidators)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<ValidationFailure> Validate(ValidationContext context)
+            {
+                var fooResult = new FooValidator().Validate(context.InstanceToValidate as Models.ConfigurationModel);
+
+                var errors = new List<ValidationFailure>();
+                errors.AddRange(fooResult.Errors);
+                return errors;
+            }
+
+            //-------------------------------------------------------------------
+            public void ApplyAsyncCondition(
+                Func<ValidationContext, CancellationToken,
+                Task<bool>> predicate, 
+                ApplyConditionTo applyConditionTo = ApplyConditionTo.AllValidators)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<IEnumerable<ValidationFailure>> ValidateAsync(
+                ValidationContext context, 
+                CancellationToken cancellation)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void ApplyCondition(
+                Func<ValidationContext, bool> predicate,
+                ApplyConditionTo applyConditionTo = ApplyConditionTo.AllValidators)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        //__ Правило: если Zip = 123 и  State / province = "Alaska" валидация не проходит.
+        public class FooValidator : AbstractValidator<Models.ConfigurationModel>
+        {
+            public FooValidator()
+            {
+                RuleFor(x => x.AddZip).Length(1,3).WithMessage("AddZip too short");
+
+                RuleFor(x => x.AddZip).Must((x, context) =>
+            {
+
+                if ((x.AddZip == "123") & (x.AddStateProvinceId == 52))
+                    return false;
+
+                return true;
+            }).WithMessage("Zip test");
+            }
+        }
+
+
+
     }
 }
