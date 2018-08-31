@@ -5,6 +5,7 @@ using Nop.Core.Html;
 using Nop.Services.Helpers;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
+using Nop.Web.Areas.Admin.Infrastructure.Mapper.Extensions;
 using Nop.Web.Areas.Admin.Models.Logging;
 
 namespace Nop.Web.Areas.Admin.Factories
@@ -90,17 +91,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 Data = logItems.Select(logItem =>
                 {
                     //fill in model values from the entity
-                    var logModel = new LogModel
-                    {
-                        Id = logItem.Id,
-                        IpAddress = logItem.IpAddress,
-                        CustomerId = logItem.CustomerId,
-                        PageUrl = logItem.PageUrl,
-                        ReferrerUrl = logItem.ReferrerUrl
-                    };
-
-                    //little performance optimization: ensure that "FullMessage" is not returned
-                    logModel.FullMessage = string.Empty;
+                    var logModel = logItem.ToModel<LogModel>();
 
                     //convert dates to the user time
                     logModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(logItem.CreatedOnUtc, DateTimeKind.Utc);

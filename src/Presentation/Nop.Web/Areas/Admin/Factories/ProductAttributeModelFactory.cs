@@ -192,14 +192,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 Data = values.PaginationByRequestModel(searchModel).Select(value =>
                 {
                     //fill in model values from the entity
-                    var predefinedProductAttributeValueModel = new PredefinedProductAttributeValueModel
-                    {
-                        Id = value.Id,
-                        ProductAttributeId = value.ProductAttributeId,
-                        Name = value.Name,
-                        IsPreSelected = value.IsPreSelected,
-                        DisplayOrder = value.DisplayOrder
-                    };
+                    var predefinedProductAttributeValueModel = value.ToModel<PredefinedProductAttributeValueModel>();
 
                     //fill in additional values (not existing in the entity)
                     predefinedProductAttributeValueModel.WeightAdjustmentStr = value.WeightAdjustment.ToString("G29");
@@ -284,12 +277,7 @@ namespace Nop.Web.Areas.Admin.Factories
             var model = new ProductAttributeProductListModel
             {
                 //fill in model values from the entity
-                Data = products.Select(product => new ProductAttributeProductModel
-                {
-                    Id = product.Id,
-                    ProductName = product.Name,
-                    Published = product.Published
-                }),
+                Data = products.Select(product => product.ToModel<ProductAttributeProductModel>()),
                 Total = products.TotalCount
             };
 

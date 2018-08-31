@@ -943,7 +943,7 @@ namespace Nop.Web.Areas.Admin.Factories
 
                     //convert dates to the user time
                     orderModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc);
-
+                    
                     //fill in additional values (not existing in the entity)
                     orderModel.StoreName = _storeService.GetStoreById(order.StoreId)?.Name ?? "Unknown";
 
@@ -979,24 +979,15 @@ namespace Nop.Web.Areas.Admin.Factories
                 Data = shoppingCart.PaginationByRequestModel(searchModel).Select(item =>
                 {
                     //fill in model values from the entity
-                    var shoppingCartItemModel = new ShoppingCartItemModel
-                    {
-                        Id = item.Id,
-                        ProductId = item.ProductId,
-                        Quantity = item.Quantity,
-                        ProductName = item.Product.Name,
-                        AttributeInfo = _productAttributeFormatter.FormatAttributes(item.Product, item.AttributesXml),
-                        UnitPrice = _priceFormatter
-                            .FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetUnitPrice(item), out var _)),
-                        Total = _priceFormatter
-                            .FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetSubTotal(item), out _))
-                    };
-
-                    //convert dates to the user time
-                    shoppingCartItemModel.UpdatedOn = _dateTimeHelper.ConvertToUserTime(item.UpdatedOnUtc, DateTimeKind.Utc);
+                    var shoppingCartItemModel = item.ToModel<ShoppingCartItemModel>(); 
 
                     //fill in additional values (not existing in the entity)
-                    shoppingCartItemModel.Store = _storeService.GetStoreById(item.StoreId)?.Name ?? "Unknown";
+                    shoppingCartItemModel.Store = _storeService.GetStoreById(item.StoreId)?.Name ?? "Unknown";                    
+                    shoppingCartItemModel.AttributeInfo = _productAttributeFormatter.FormatAttributes(item.Product, item.AttributesXml);
+                    shoppingCartItemModel.UnitPrice = _priceFormatter.FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetUnitPrice(item), out var _));
+                    shoppingCartItemModel.Total = _priceFormatter.FormatPrice(_taxService.GetProductPrice(item.Product, _priceCalculationService.GetSubTotal(item), out _));
+                    //convert dates to the user time
+                    shoppingCartItemModel.UpdatedOn = _dateTimeHelper.ConvertToUserTime(item.UpdatedOnUtc, DateTimeKind.Utc);
 
                     return shoppingCartItemModel;
                 }),
@@ -1030,14 +1021,9 @@ namespace Nop.Web.Areas.Admin.Factories
                 Data = activityLog.Select(logItem =>
                 {
                     //fill in model values from the entity
-                    var customerActivityLogModel = new CustomerActivityLogModel
-                    {
-                        Id = logItem.Id,
-                        ActivityLogTypeName = logItem.ActivityLogType.Name,
-                        Comment = logItem.Comment,
-                        IpAddress = logItem.IpAddress
-                    };
+                    var customerActivityLogModel = logItem.ToModel<CustomerActivityLogModel>();
 
+                    //fill in additional values (not existing in the entity)
                     //convert dates to the user time
                     customerActivityLogModel.CreatedOn = _dateTimeHelper.ConvertToUserTime(logItem.CreatedOnUtc, DateTimeKind.Utc);
 
