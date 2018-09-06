@@ -4,9 +4,15 @@
 declare @resources xml
 --a resource will be deleted if its value is empty
 set @resources='
-<Language>  
-  <LocaleResource Name="">
-    <Value></Value>
+<Language> 
+  <LocaleResource Name="Admin.Common.Alert">
+    <Value>ERROR</Value>
+  </LocaleResource>
+   <LocaleResource Name="Admin.Common.Alert.Currency.Error">
+    <Value>Failed to update currency</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Common.Ok">
+    <Value>Ok</Value>
   </LocaleResource>
 </Language>
 '

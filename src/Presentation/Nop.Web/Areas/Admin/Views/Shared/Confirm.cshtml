@@ -7,10 +7,10 @@
             <h4 class="modal-title" id="@(Model.WindowId)-title">@T("Admin.Common.AreYouSure")</h4>
         </div>
         <div class="modal-body">
-            @if (!string.IsNullOrEmpty(Model.AdditonalConfirmText))
+            @if (!string.IsNullOrEmpty(Model.AdditionalText))
             {
                 <div class="additional-text">
-                    @T(Model.AdditonalConfirmText)
+                    @T(Model.AdditionalText)
                 </div>
             }
             @T("Admin.Common.ActionConfirmation")

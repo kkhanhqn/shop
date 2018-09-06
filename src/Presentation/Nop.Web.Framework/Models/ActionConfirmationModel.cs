@@ -19,8 +19,8 @@ namespace Nop.Web.Framework.Models
         /// </summary>
         public string WindowId { get; set; }
         /// <summary>
-        /// Additionl confirm text
+        /// Additionl text
         /// </summary>
-        public string AdditonalConfirmText { get; set; }
+        public string AdditionalText { get; set; }
     }
 }

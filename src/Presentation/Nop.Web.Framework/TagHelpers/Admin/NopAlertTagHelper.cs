@@ -10,14 +10,13 @@ using Nop.Web.Framework.Models;
 namespace Nop.Web.Framework.TagHelpers.Admin
 {
     /// <summary>
-    /// nop-action-confirmation tag helper
+    /// nop-alert tag helper
     /// </summary>
-    [HtmlTargetElement("nop-action-confirmation", Attributes = ButtonIdAttributeName, TagStructure = TagStructure.WithoutEndTag)]
-    public class NopActionConfirmationTagHelper : TagHelper
+    [HtmlTargetElement("nop-alert", Attributes = ButtonIdAttributeName + "," + AlertMessageName, TagStructure = TagStructure.WithoutEndTag)]
+    public class NopAlertTagHelper : TagHelper
     {
         private const string ButtonIdAttributeName = "asp-button-id";
-        private const string ActionAttributeName = "asp-action";
-        private const string AdditionaText = "asp-additional-confirm";
+        private const string AlertMessageName = "asp-alert-message";
 
         private readonly IHtmlHelper _htmlHelper;
 
@@ -33,12 +32,6 @@ namespace Nop.Web.Framework.TagHelpers.Admin
         public string ButtonId { get; set; }
 
         /// <summary>
-        /// Action name
-        /// </summary>
-        [HtmlAttributeName(ActionAttributeName)]
-        public string Action { get; set; }
-
-        /// <summary>
         /// ViewContext
         /// </summary>
         [HtmlAttributeNotBound]
@@ -48,15 +41,15 @@ namespace Nop.Web.Framework.TagHelpers.Admin
         /// <summary>
         /// Additional confirm text
         /// </summary>
-        [HtmlAttributeName(AdditionaText)]
-        public string ConfirmText { get; set; }
+        [HtmlAttributeName(AlertMessageName)]
+        public string Message { get; set; }
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="generator">HTML generator</param>
         /// <param name="htmlHelper">HTML helper</param>
-        public NopActionConfirmationTagHelper(IHtmlGenerator generator, IHtmlHelper htmlHelper)
+        public NopAlertTagHelper(IHtmlGenerator generator, IHtmlHelper htmlHelper)
         {
             Generator = generator;
             _htmlHelper = htmlHelper;
@@ -83,17 +76,12 @@ namespace Nop.Web.Framework.TagHelpers.Admin
             var viewContextAware = _htmlHelper as IViewContextAware;
             viewContextAware?.Contextualize(ViewContext);
 
-            if (string.IsNullOrEmpty(Action))
-                Action = _htmlHelper.ViewContext.RouteData.Values["action"].ToString();
+            var modalId = new HtmlString(ButtonId + "-action-alert").ToHtmlString();
 
-            var modalId = new HtmlString(ButtonId + "-action-confirmation").ToHtmlString();
-
-            var actionConfirmationModel = new ActionConfirmationModel()
+            var actionAlertModel = new ActionAlertModel()
             {
-                ControllerName = _htmlHelper.ViewContext.RouteData.Values["controller"].ToString(),
-                ActionName = Action,
                 WindowId = modalId,
-                AdditionalText = ConfirmText
+                AlertMessage = Message
             };
 
             //tag details
@@ -105,7 +93,7 @@ namespace Nop.Web.Framework.TagHelpers.Admin
             output.Attributes.Add("tabindex", "-1");
             output.Attributes.Add("role", "dialog");
             output.Attributes.Add("aria-labelledby", $"{modalId}-title");
-            output.Content.SetHtmlContent(await _htmlHelper.PartialAsync("Confirm", actionConfirmationModel));
+            output.Content.SetHtmlContent(await _htmlHelper.PartialAsync("Alert", actionAlertModel));
 
             //modal script
             var script = new TagBuilder("script");
@@ -115,7 +103,7 @@ namespace Nop.Web.Framework.TagHelpers.Admin
                                         $"$(\"#{ButtonId}\").attr(\"name\", \"\");" +
                                         $"if($(\"#{ButtonId}\").attr(\"type\") == \"submit\")$(\"#{ButtonId}\").attr(\"type\", \"button\");" +
                                         "});");
-            output.PostContent.SetHtmlContent(script.RenderHtmlContent());            
+            output.PostContent.SetHtmlContent(script.RenderHtmlContent());
         }
     }
 }

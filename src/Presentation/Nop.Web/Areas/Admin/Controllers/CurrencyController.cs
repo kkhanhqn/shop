@@ -177,6 +177,11 @@ namespace Nop.Web.Areas.Admin.Controllers
         [HttpPost]
         public virtual IActionResult MarkAsPrimaryStoreCurrency(int id)
         {
+            //TEST
+            var b = decimal.Zero;
+            var a = 1 / b;
+            //TEST
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageCurrencies))
                 return AccessDeniedView();
 

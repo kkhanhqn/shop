@@ -158,6 +158,7 @@
                         </script>
                         <button type="submit" class="btn btn-default" id="btnMarkPERC" style="display:none" />
                         <button type="submit" class="btn btn-default" id="btnMarkPSC" style="display:none" />
+                        <button type="submit" class="btn btn-default" id="btnAlert" style="display:none" />
 
                         <script>
                             var selectedId;
@@ -179,10 +180,14 @@
                                             grid.dataSource.read();
                                         },
                                         error: function (xhr, ajaxOptions, thrownError) {
-                                            alert('Failed to update currency');
+                                            CallAlert();
                                         }
                                     });
                                     $('#btnMarkPSC-action-confirmation').modal('toggle');
+                                });
+
+                                $("#btnAlert-action-alert-submit-button").bind("click", function () {
+                                    $('#btnAlert-action-alert').modal('toggle');
                                 });
 
                                 $("#btnMarkPERC-action-confirmation-submit-button").bind("click", function () {
@@ -200,13 +205,17 @@
                                             grid.dataSource.read();
                                         },
                                         error: function (xhr, ajaxOptions, thrownError) {
-                                            alert('Failed to update currency');
+                                            CallAlert();
                                         }
                                     });
                                     $('#btnMarkPERC-action-confirmation').modal('toggle');
                                 });
 
                             });
+
+                            function CallAlert() {
+                                $("#btnAlert").click();
+                            }
 
                             function markAsPrimaryExchangeRateCurrency(id) {
                                 selectedId = id;
@@ -294,7 +303,7 @@
                                             grid.dataSource.read();
                                         },
                                         error: function (xhr, ajaxOptions, thrownError) {
-                                            alert('Failed to update currency');
+                                            $("#btnAlert").click();
                                         }
                                     });
                                 }
@@ -326,3 +335,4 @@
 </form>
 <nop-action-confirmation asp-button-id="btnMarkPERC" asp-additional-confirm="Admin.Configuration.Currencies.AdditionalConfirm" />
 <nop-action-confirmation asp-button-id="btnMarkPSC" asp-additional-confirm="Admin.Configuration.Currencies.AdditionalConfirm"/>
+<nop-alert asp-button-id="btnAlert" asp-alert-message="Admin.Common.Alert.Currency.Error"/>
