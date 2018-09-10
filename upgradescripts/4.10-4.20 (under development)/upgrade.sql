@@ -11,6 +11,9 @@ set @resources='
   <LocaleResource Name="Common.Extensions.RelativeFormat">
     <Value>{0} ago</Value>
   </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Core.Domain.Discounts.DiscountNotifications">
+    <Value>Coupon code ({0}) is activated! The discount will be reflected in your order total.</Value>
+  </LocaleResource> 
 </Language>
 '
 

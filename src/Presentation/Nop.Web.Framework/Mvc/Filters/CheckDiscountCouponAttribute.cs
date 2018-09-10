@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core;
 using Nop.Core.Data;
@@ -96,6 +97,11 @@ namespace Nop.Web.Framework.Mvc.Filters
 
                 //apply discount coupon codes to customer
                 discounts.ForEach(discount => _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discount.CouponCode));
+                //set cookies for displaying a discount popup
+                var discountsList = string.Join(",", discounts.Select(d => d.CouponCode).ToList());
+                context.HttpContext.Response.Cookies.Append(NopDiscountDefaults.DiscountCouponQueryParameter, discountsList, new CookieOptions {
+                    Expires = DateTime.Now.AddSeconds(10)
+                });
             }
 
             /// <summary>
