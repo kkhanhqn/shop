@@ -861,8 +861,13 @@ namespace Nop.Services.Orders
         /// <param name="order">Order</param>
         protected virtual void AwardRewardPoints(Order order)
         {
+            var total = order.OrderTotal - order.OrderItems
+                .Where(item => !item.Product.ConsiderRewardPoints)
+                .Select(item => item.PriceInclTax)
+                .Sum();
+
             var totalForRewardPoints = _orderTotalCalculationService
-                .CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, order.OrderTotal);
+                .CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, total);
             var points = totalForRewardPoints > decimal.Zero ?
                 _orderTotalCalculationService.CalculateRewardPoints(order.Customer, totalForRewardPoints) : 0;
             if (points == 0)
@@ -900,8 +905,13 @@ namespace Nop.Services.Orders
         /// <param name="order">Order</param>
         protected virtual void ReduceRewardPoints(Order order)
         {
+            var total = order.OrderTotal - order.OrderItems
+                .Where(item => !item.Product.ConsiderRewardPoints)
+                .Select(item => item.PriceInclTax)
+                .Sum();
+
             var totalForRewardPoints = _orderTotalCalculationService
-                .CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, order.OrderTotal);
+                .CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, total);
             var points = totalForRewardPoints > decimal.Zero ?
                 _orderTotalCalculationService.CalculateRewardPoints(order.Customer, totalForRewardPoints) : 0;
             if (points == 0)

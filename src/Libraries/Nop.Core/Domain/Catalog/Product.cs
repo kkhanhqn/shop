@@ -99,6 +99,11 @@ namespace Nop.Core.Domain.Catalog
         public bool AllowCustomerReviews { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating consider product when calculate reward points
+        /// </summary>
+        public bool ConsiderRewardPoints { get; set; }
+
+        /// <summary>
         /// Gets or sets the rating sum (approved reviews)
         /// </summary>
         public int ApprovedRatingSum { get; set; }

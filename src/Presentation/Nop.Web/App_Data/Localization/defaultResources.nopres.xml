@@ -2790,6 +2790,12 @@
   <LocaleResource Name="Admin.Catalog.Products.Fields.CallForPrice.Hint">
     <Value>Check to show "Call for Pricing" or "Call for quote" instead of price.</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderRewardPoints">
+    <Value>Consider product when calculate reward points</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderRewardPoints.Hint">
+    <Value>Check to consider this product when calculate reward points.</Value>
+  </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.CreatedOn">
     <Value>Created on</Value>
   </LocaleResource>
@@ -7634,6 +7640,9 @@
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.CallForPrice">
     <Value>Call for price</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.ConsiderRewardPoints">
+    <Value>Consider product when calculate reward points</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.CreatedOn">
     <Value>Created on</Value>
