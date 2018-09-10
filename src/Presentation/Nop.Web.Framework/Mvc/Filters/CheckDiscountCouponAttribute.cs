@@ -96,6 +96,7 @@ namespace Nop.Web.Framework.Mvc.Filters
 
                 //apply discount coupon codes to customer
                 discounts.ForEach(discount => _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discount.CouponCode));
+                context.HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] = discounts.Select(d => d.CouponCode).ToList();
             }
 
             /// <summary>
