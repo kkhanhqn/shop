@@ -33,7 +33,7 @@ namespace Nop.Web.Controllers
             base.OnActionExecuted(context);
             if (HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] is IList<string>)
                 foreach (var discount in HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] as IList<string>)
-                    SuccessNotification(string.Format(discount));
+                    SuccessNotification(discount);
         }
     }
 }
