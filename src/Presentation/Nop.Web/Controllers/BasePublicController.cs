@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 using Nop.Web.Framework.Security;
+using Nop.Services.Discounts;
 
 namespace Nop.Web.Controllers
 {
@@ -18,6 +21,19 @@ namespace Nop.Web.Controllers
         {
             Response.StatusCode = 404;
             return new EmptyResult();
+        }
+
+        /// <summary>
+        /// Called after the action executes, before the action result
+        /// </summary>
+        /// <param name="context">A context for action controllers</param>
+        [NonAction]
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+            if (HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] is IList<string>)
+                foreach (var discount in HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] as IList<string>)
+                    SuccessNotification(string.Format(discount));
         }
     }
 }

@@ -9,6 +9,7 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Customers;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
+using Nop.Services.Localization;
 
 namespace Nop.Web.Framework.Mvc.Filters
 {
@@ -40,6 +41,7 @@ namespace Nop.Web.Framework.Mvc.Filters
             private readonly ICustomerService _customerService;
             private readonly IDiscountService _discountService;
             private readonly IWorkContext _workContext;
+            private readonly ILocalizationService _localizationService;
 
             #endregion
 
@@ -47,11 +49,13 @@ namespace Nop.Web.Framework.Mvc.Filters
 
             public CheckDiscountCouponFilter(ICustomerService customerService,
                 IDiscountService discountService,
-                IWorkContext workContext)
+                IWorkContext workContext,
+                ILocalizationService localizationService)
             {
                 this._customerService = customerService;
                 this._discountService = discountService;
                 this._workContext = workContext;
+                this._localizationService = localizationService;
             }
 
             #endregion
@@ -96,7 +100,10 @@ namespace Nop.Web.Framework.Mvc.Filters
 
                 //apply discount coupon codes to customer
                 discounts.ForEach(discount => _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discount.CouponCode));
-                context.HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] = discounts.Select(d => d.CouponCode).ToList();
+                context.HttpContext.Items[NopDiscountDefaults.DiscountCouponQueryParameter] = discounts
+                    .Select(d => string.Format(_localizationService.GetResource("Enums.Nop.Core.Domain.Discounts.DiscountNotifications"), d.CouponCode))
+                    .ToList();
+
             }
 
             /// <summary>
