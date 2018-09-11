@@ -11,18 +11,19 @@ namespace Nop.Services.Messages
     {
         #region Fields
 
-        private readonly IWorkContext _workContext;
         private readonly ILogger _logger;
+        private readonly IWorkContext _workContext;
 
         #endregion
 
         #region Ctor
 
-        public NotificationService(IWorkContext workContext,
-            ILogger logger)
+        public NotificationService(
+            ILogger logger,
+            IWorkContext workContext)
         {
-            _workContext = workContext;
             _logger = logger;
+            _workContext = workContext;
         }
 
         #endregion
@@ -33,9 +34,9 @@ namespace Nop.Services.Messages
         /// <param name="context">Context</param>
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        public virtual HttpContext ErrorNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
+        public virtual void ErrorNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
         {
-            return PrepareContext(context, NotifyType.Error, message, persistForTheNextRequest);
+            PrepareContext(context, NotifyType.Error, message, persistForTheNextRequest);
         }
 
         /// <summary>
@@ -45,12 +46,12 @@ namespace Nop.Services.Messages
         /// <param name="exception">Exception</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="logException">A value indicating whether exception should be logged</param>
-        public virtual HttpContext ErrorNotification(HttpContext context, Exception exception, bool persistForTheNextRequest = true, bool logException = true)
+        public virtual void ErrorNotification(HttpContext context, Exception exception, bool persistForTheNextRequest = true, bool logException = true)
         {
             if (logException)
                 LogException(exception);
 
-            return ErrorNotification(context, exception.Message, persistForTheNextRequest);
+            ErrorNotification(context, exception.Message, persistForTheNextRequest);
         }
 
         /// <summary>
@@ -59,9 +60,9 @@ namespace Nop.Services.Messages
         /// <param name="context">Context</param>
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        public virtual HttpContext SuccessNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
+        public virtual void SuccessNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
         {
-            return PrepareContext(context, NotifyType.Success, message, persistForTheNextRequest);
+            PrepareContext(context, NotifyType.Success, message, persistForTheNextRequest);
         }
 
         /// <summary>
@@ -70,12 +71,12 @@ namespace Nop.Services.Messages
         /// <param name="context">Context</param>
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        public virtual HttpContext WarningNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
+        public virtual void WarningNotification(HttpContext context, string message, bool persistForTheNextRequest = true)
         {
-            return PrepareContext(context, NotifyType.Warning, message, persistForTheNextRequest);
+            PrepareContext(context, NotifyType.Warning, message, persistForTheNextRequest);
         }
 
-        protected virtual HttpContext PrepareContext(HttpContext context, NotifyType type, string message, bool persistForTheNextRequest)
+        protected virtual void PrepareContext(HttpContext context, NotifyType type, string message, bool persistForTheNextRequest)
         {
             if (context.Items[NotificationSettings.MessageListKey] == null)
                 context.Items[NotificationSettings.MessageListKey] = new List<NotifyData>();
@@ -90,8 +91,6 @@ namespace Nop.Services.Messages
                     Message = message,
                     PersistForTheNextRequest = persistForTheNextRequest
                 });
-
-            return context;
         }
 
         /// <summary>

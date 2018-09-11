@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Security;
+using Nop.Services.Messages;
 using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Models.Logging;
 using Nop.Web.Framework.Mvc;
@@ -19,6 +20,7 @@ namespace Nop.Web.Areas.Admin.Controllers
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ILocalizationService _localizationService;
         private readonly IPermissionService _permissionService;
+        private readonly INotificationService _notificationService;
 
         #endregion
 
@@ -27,12 +29,14 @@ namespace Nop.Web.Areas.Admin.Controllers
         public ActivityLogController(IActivityLogModelFactory activityLogModelFactory,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
-            IPermissionService permissionService)
+            IPermissionService permissionService,
+            INotificationService notificationService)
         {
             this._activityLogModelFactory = activityLogModelFactory;
             this._customerActivityService = customerActivityService;
             this._localizationService = localizationService;
             this._permissionService = permissionService;
+            this._notificationService = notificationService;
         }
 
         #endregion
@@ -84,7 +88,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.UpdateActivityType(activityType);
             }
 
-            SuccessNotification(_localizationService.GetResource("Admin.Configuration.ActivityLog.ActivityLogType.Updated"));
+            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.ActivityLog.ActivityLogType.Updated"));
 
             //selected tab
             SaveSelectedTabName();
