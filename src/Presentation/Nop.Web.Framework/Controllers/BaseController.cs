@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,6 +16,7 @@ using Nop.Core.Infrastructure;
 using Nop.Services.Common;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
+using Nop.Services.Messages;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Models;
@@ -168,6 +170,18 @@ namespace Nop.Web.Framework.Controllers
         #endregion
 
         #region Notifications
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+
+            if (!(context.HttpContext.Items[NotificationSettings.MessageListKey] is IList<NotifyData>))
+                return;
+
+            foreach (var note in (IList<NotifyData>)context.HttpContext.Items[NotificationSettings.MessageListKey]) {
+                AddNotification(note.Type, note.Message, note.PersistForTheNextRequest);
+            }
+        }
 
         /// <summary>
         /// Display success notification
