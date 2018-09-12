@@ -1199,11 +1199,20 @@ namespace Nop.Web.Factories
                     //get shipping total
                     var shippingBaseInclTax = !model.RequiresShipping ? 0 : _orderTotalCalculationService.GetShoppingCartShippingTotal(cart, true) ?? 0;
 
-                    //get total for reward points
-                    var totalForRewardPoints = _orderTotalCalculationService
-                        .CalculateApplicableOrderTotalForRewardPoints(shippingBaseInclTax, shoppingCartTotalBase.Value);
-                    if (totalForRewardPoints > decimal.Zero)
-                        model.WillEarnRewardPoints = _orderTotalCalculationService.CalculateRewardPoints(_workContext.CurrentCustomer, totalForRewardPoints);
+                    var allowedCart = cart.Where(item => item.Product.ConsiderRewardPoints).ToList();
+
+                    if (allowedCart.Any())
+                    {
+                        var filteredCartTotalBase = _orderTotalCalculationService.GetShoppingCartTotal(allowedCart, out decimal _, out List<DiscountForCaching> _, out List<AppliedGiftCard> _, out int _, out decimal _);
+                        
+                        //get total for reward points
+                        var totalForRewardPoints = _orderTotalCalculationService
+                            .CalculateApplicableOrderTotalForRewardPoints(shippingBaseInclTax, filteredCartTotalBase.Value);
+                        if (totalForRewardPoints > decimal.Zero)
+                            model.WillEarnRewardPoints = _orderTotalCalculationService.CalculateRewardPoints(_workContext.CurrentCustomer, totalForRewardPoints);
+
+                    }
+
                 }
 
             }

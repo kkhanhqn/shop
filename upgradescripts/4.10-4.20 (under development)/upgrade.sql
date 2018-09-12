@@ -121,3 +121,5 @@ BEGIN
 	VALUES (N'shippingsettings.ignoreadditionalshippingchargeforpickupinstore', N'true', 0)
 END
 GO
+
+ALTER TABLE [Product] ADD [ConsiderRewardPoints] BIT NOT NULL DEFAULT 1

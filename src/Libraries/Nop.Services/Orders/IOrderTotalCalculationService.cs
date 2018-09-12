@@ -184,6 +184,14 @@ namespace Nop.Services.Orders
         decimal CalculateApplicableOrderTotalForRewardPoints(decimal orderShippingInclTax, decimal orderTotal);
 
         /// <summary>
+        /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
+        /// </summary>
+        /// <param name="order">Order</param>
+        /// <returns>Applicable order total</returns>
+        decimal CalculateApplicableOrderTotalForRewardPoints(Order order);
+
+
+        /// <summary>
         /// Calculate how much reward points will be earned/reduced based on certain amount spent
         /// </summary>
         /// <param name="customer">Customer</param>

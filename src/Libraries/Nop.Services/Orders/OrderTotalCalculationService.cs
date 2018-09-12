@@ -1406,6 +1406,30 @@ namespace Nop.Services.Orders
         }
 
         /// <summary>
+        /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
+        /// </summary>
+        /// <param name="order">Order</param>
+        /// <returns>Applicable order total</returns>
+        public virtual decimal CalculateApplicableOrderTotalForRewardPoints(Order order)
+        {
+            var orderTotal = order.OrderTotal - order.OrderItems
+            .Where(item => !item.Product.ConsiderRewardPoints)
+            .Select(item => item.PriceInclTax)
+            .Sum();
+
+            //do you give reward points for order total? or do you exclude shipping?
+            //since shipping costs vary some of store owners don't give reward points based on shipping total
+            //you can put your custom logic here
+            var totalForRewardPoints = orderTotal - order.OrderShippingInclTax;
+
+            //check the minimum total to award points
+            if (totalForRewardPoints < _rewardPointsSettings.MinOrderTotalToAwardPoints)
+                return decimal.Zero;
+
+            return totalForRewardPoints;
+        }
+
+        /// <summary>
         /// Calculate how much reward points will be earned/reduced based on certain amount spent
         /// </summary>
         /// <param name="customer">Customer</param>
@@ -1418,32 +1442,6 @@ namespace Nop.Services.Orders
 
             if (_rewardPointsSettings.PointsForPurchases_Amount <= decimal.Zero)
                 return 0;
-
-            //ensure that reward points are applied only to registered users
-            if (customer == null || customer.IsGuest())
-                return 0;
-
-            var points = (int)Math.Truncate(amount / _rewardPointsSettings.PointsForPurchases_Amount * _rewardPointsSettings.PointsForPurchases_Points);
-            return points;
-        }
-
-        /// Calculate how much reward points will be earned/reduced based on certain amount spent
-        /// </summary>
-        /// <param name="customer">Customer</param>
-        /// <param name="order">Order</param>
-        /// <returns>Number of reward points</returns>
-        public virtual int CalculateRewardPoints(Customer customer, Order order)
-        {
-            if (!_rewardPointsSettings.Enabled)
-                return 0;
-
-            if (_rewardPointsSettings.PointsForPurchases_Amount <= decimal.Zero)
-                return 0;
-
-            var amount = order.OrderTotal - order.OrderItems
-                .Where(item => !item.Product.ConsiderRewardPoints)
-                .Select(item => item.PriceInclTax)
-                .Sum();
 
             //ensure that reward points are applied only to registered users
             if (customer == null || customer.IsGuest())
