@@ -134,7 +134,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //save store mappings
                 SaveStoreMappings(poll, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Polls.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Polls.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -189,7 +189,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //save store mappings
                 SaveStoreMappings(poll, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Polls.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Polls.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -220,7 +220,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _pollService.DeletePoll(poll);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Polls.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Polls.Deleted"));
 
             return RedirectToAction("List");
         }

@@ -88,7 +88,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.UpdateActivityType(activityType);
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.ActivityLog.ActivityLogType.Updated"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.ActivityLog.ActivityLogType.Updated"));
 
             //selected tab
             SaveSelectedTabName();

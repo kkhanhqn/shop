@@ -109,7 +109,7 @@ namespace Nop.Plugin.Payments.Worldpay.Controllers
             _worldpayPaymentSettings.AdditionalFeePercentage = model.AdditionalFeePercentage;
             _settingService.SaveSetting(_worldpayPaymentSettings);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }

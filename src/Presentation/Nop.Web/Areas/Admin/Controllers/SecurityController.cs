@@ -117,7 +117,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.ACL.Updated"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.ACL.Updated"));
 
             return RedirectToAction("Permissions");
         }

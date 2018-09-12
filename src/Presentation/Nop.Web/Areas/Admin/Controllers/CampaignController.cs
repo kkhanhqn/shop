@@ -139,7 +139,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewCampaign",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewCampaign"), campaign.Id), campaign);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Campaigns.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.Added"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = campaign.Id }) : RedirectToAction("List");
             }
@@ -193,7 +193,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditCampaign",
                     string.Format(_localizationService.GetResource("ActivityLog.EditCampaign"), campaign.Id), campaign);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Campaigns.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = campaign.Id }) : RedirectToAction("List");
             }
@@ -223,7 +223,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //ensure that the entered email is valid
             if (!CommonHelper.IsValidEmail(model.TestEmail))
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.WrongEmail"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.WrongEmail"), false);
                 return View(model);
             }
 
@@ -243,13 +243,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     _campaignService.SendCampaign(campaign, emailAccount, model.TestEmail);
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Campaigns.TestEmailSentToCustomers"), false);
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.TestEmailSentToCustomers"), false);
 
                 return View(model);
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc, false);
+                _notificationService.ErrorNotification(exc, false);
             }
 
             //prepare model
@@ -285,13 +285,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     isActive: true);
                 var totalEmailsSent = _campaignService.SendCampaign(campaign, emailAccount, subscriptions);
 
-                _notificationService.SuccessNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.Promotions.Campaigns.MassEmailSentToCustomers"), totalEmailsSent), false);
+                _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.Promotions.Campaigns.MassEmailSentToCustomers"), totalEmailsSent), false);
 
                 return View(model);
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc, false);
+                _notificationService.ErrorNotification(exc, false);
             }
 
             //prepare model
@@ -318,7 +318,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteCampaign",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteCampaign"), campaign.Id), campaign);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Campaigns.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.Deleted"));
 
             return RedirectToAction("List");
         }

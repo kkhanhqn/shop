@@ -121,7 +121,7 @@ namespace Nop.Plugin.Payments.CheckMoneyOrder.Controllers
                     x => x.DescriptionText, localized.LanguageId, localized.DescriptionText);
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }

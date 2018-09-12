@@ -167,7 +167,7 @@ namespace Nop.Plugin.Shipping.UPS.Controllers
 
             _settingService.SaveSetting(_upsSettings);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }

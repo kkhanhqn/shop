@@ -140,7 +140,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(addressAttribute, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Address.AddressAttributes.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Address.AddressAttributes.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -198,7 +198,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(addressAttribute, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Address.AddressAttributes.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Address.AddressAttributes.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -234,7 +234,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteAddressAttribute"), addressAttribute.Id),
                 addressAttribute);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Address.AddressAttributes.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Address.AddressAttributes.Deleted"));
 
             return RedirectToAction("List");
         }

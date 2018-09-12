@@ -99,10 +99,7 @@ namespace Nop.Web.Framework.Mvc.Filters
                     .ToList();
 
                 //apply discount coupon codes to customer
-                discounts.ForEach(discount => _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discount.CouponCode));
-
-                _notificationService.SuccessNotification(context.HttpContext, "msg");
-                
+                discounts.ForEach(discount => _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discount.CouponCode));                
             }
 
             /// <summary>

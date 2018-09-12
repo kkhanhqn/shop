@@ -228,7 +228,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //stores
                 SaveStoreMappings(currency, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Currencies.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Currencies.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -276,7 +276,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var allCurrencies = _currencyService.GetAllCurrencies();
                 if (allCurrencies.Count == 1 && allCurrencies[0].Id == currency.Id && !model.Published)
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Currencies.PublishedCurrencyRequired"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Configuration.Currencies.PublishedCurrencyRequired"));
                     return RedirectToAction("Edit", new { id = currency.Id });
                 }
 
@@ -294,7 +294,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //stores
                 SaveStoreMappings(currency, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Currencies.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Currencies.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -332,7 +332,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var allCurrencies = _currencyService.GetAllCurrencies(loadCacheableCopy: false);
                 if (allCurrencies.Count == 1 && allCurrencies[0].Id == currency.Id)
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Currencies.PublishedCurrencyRequired"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Configuration.Currencies.PublishedCurrencyRequired"));
                     return RedirectToAction("Edit", new { id = currency.Id });
                 }
 
@@ -342,13 +342,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("DeleteCurrency",
                     string.Format(_localizationService.GetResource("ActivityLog.DeleteCurrency"), currency.Id), currency);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Currencies.Deleted"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Currencies.Deleted"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = currency.Id });
             }
         }

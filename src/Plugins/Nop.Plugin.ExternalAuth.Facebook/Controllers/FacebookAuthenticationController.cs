@@ -91,7 +91,7 @@ namespace Nop.Plugin.ExternalAuth.Facebook.Controllers
             //clear Facebook authentication options cache
             _optionsCache.TryRemove(FacebookDefaults.AuthenticationScheme);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }

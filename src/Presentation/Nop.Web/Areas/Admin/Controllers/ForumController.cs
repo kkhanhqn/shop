@@ -117,7 +117,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 forumGroup.UpdatedOnUtc = DateTime.UtcNow;
                 _forumService.InsertForumGroup(forumGroup);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Added"));
 
                 return continueEditing ? RedirectToAction("EditForumGroup", new { forumGroup.Id }) : RedirectToAction("List");
             }
@@ -153,7 +153,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 forum.UpdatedOnUtc = DateTime.UtcNow;
                 _forumService.InsertForum(forum);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Added"));
 
                 return continueEditing ? RedirectToAction("EditForum", new { forum.Id }) : RedirectToAction("List");
             }
@@ -202,7 +202,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 forumGroup.UpdatedOnUtc = DateTime.UtcNow;
                 _forumService.UpdateForumGroup(forumGroup);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Updated"));
 
                 return continueEditing ? RedirectToAction("EditForumGroup", forumGroup.Id) : RedirectToAction("List");
             }
@@ -247,7 +247,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 forum.UpdatedOnUtc = DateTime.UtcNow;
                 _forumService.UpdateForum(forum);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Updated"));
 
                 return continueEditing ? RedirectToAction("EditForum", forum.Id) : RedirectToAction("List");
             }
@@ -276,7 +276,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _forumService.DeleteForumGroup(forumGroup);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.ForumGroup.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -294,7 +294,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _forumService.DeleteForum(forum);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Forums.Forum.Deleted"));
 
             return RedirectToAction("List");
         }

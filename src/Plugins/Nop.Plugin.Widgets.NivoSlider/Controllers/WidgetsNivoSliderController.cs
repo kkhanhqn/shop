@@ -184,7 +184,7 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
                     _pictureService.DeletePicture(previousPicture);
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
             return Configure();
         }
     }

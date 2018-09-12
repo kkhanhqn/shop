@@ -125,7 +125,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                     null : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.DontSendBeforeDate.Value);
                 _queuedEmailService.UpdateQueuedEmail(email);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.QueuedEmails.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.QueuedEmails.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = email.Id }) : RedirectToAction("List");
             }
@@ -171,7 +171,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             };
             _queuedEmailService.InsertQueuedEmail(requeuedEmail);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.QueuedEmails.Requeued"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.QueuedEmails.Requeued"));
 
             return RedirectToAction("Edit", new { id = requeuedEmail.Id });
         }
@@ -189,7 +189,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _queuedEmailService.DeleteQueuedEmail(email);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.QueuedEmails.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.QueuedEmails.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -215,7 +215,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _queuedEmailService.DeleteAllEmails();
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.QueuedEmails.DeletedAll"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.QueuedEmails.DeletedAll"));
 
             return RedirectToAction("List");
         }

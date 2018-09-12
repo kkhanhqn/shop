@@ -175,10 +175,11 @@ namespace Nop.Web.Framework.Controllers
         {
             base.OnActionExecuted(context);
 
-            if (!(context.HttpContext.Items[NotificationSettings.MessageListKey] is IList<NotifyData>))
+            if (!(context.HttpContext.Items[NotificationDefaults.MessageListKey] is IList<NotifyData>))
                 return;
 
-            foreach (var note in (IList<NotifyData>)context.HttpContext.Items[NotificationSettings.MessageListKey]) {
+            // Extract notifications from context and add them to a controller
+            foreach (var note in (IList<NotifyData>)context.HttpContext.Items[NotificationDefaults.MessageListKey]) {
                 AddNotification(note.Type, note.Message, note.PersistForTheNextRequest);
             }
         }

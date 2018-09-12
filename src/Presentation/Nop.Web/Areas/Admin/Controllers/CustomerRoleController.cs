@@ -110,7 +110,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewCustomerRole",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewCustomerRole"), customerRole.Name), customerRole);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Customers.CustomerRoles.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Added"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = customerRole.Id }) : RedirectToAction("List");
             }
@@ -170,7 +170,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                     _customerActivityService.InsertActivity("EditCustomerRole",
                         string.Format(_localizationService.GetResource("ActivityLog.EditCustomerRole"), customerRole.Name), customerRole);
 
-                    _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Customers.CustomerRoles.Updated"));
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Updated"));
 
                     return continueEditing ? RedirectToAction("Edit", new { id = customerRole.Id }) : RedirectToAction("List");
                 }
@@ -183,7 +183,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = customerRole.Id });
             }
         }
@@ -207,13 +207,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("DeleteCustomerRole",
                     string.Format(_localizationService.GetResource("ActivityLog.DeleteCustomerRole"), customerRole.Name), customerRole);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Customers.CustomerRoles.Deleted"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Deleted"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc.Message);
+                _notificationService.ErrorNotification(exc.Message);
                 return RedirectToAction("Edit", new { id = customerRole.Id });
             }
         }

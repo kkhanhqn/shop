@@ -159,7 +159,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //Stores
                 SaveStoreMappings(blogPost, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -222,7 +222,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //Stores
                 SaveStoreMappings(blogPost, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -257,7 +257,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteBlogPost",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteBlogPost"), blogPost.Id), blogPost);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Blog.BlogPosts.Deleted"));
 
             return RedirectToAction("List");
         }

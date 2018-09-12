@@ -115,11 +115,11 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var task = new Task(scheduleTask) { Enabled = true };
                 task.Execute(true, false);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.ScheduleTasks.RunNow.Done"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.ScheduleTasks.RunNow.Done"));
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
             }
 
             return RedirectToAction("List");

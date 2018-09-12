@@ -128,7 +128,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales                
                 UpdateReviewTypeLocales(reviewType, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Settings.ReviewType.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Settings.ReviewType.Added"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = reviewType.Id }) : RedirectToAction("List");                
             }
@@ -180,7 +180,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateReviewTypeLocales(reviewType, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Settings.ReviewType.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Settings.ReviewType.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = reviewType.Id }) : RedirectToAction("List");                
             }
@@ -212,13 +212,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     string.Format(_localizationService.GetResource("ActivityLog.DeleteReviewType"), reviewType),
                     reviewType);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Settings.ReviewType.Deleted"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Settings.ReviewType.Deleted"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = reviewType.Id });
             }            
         }

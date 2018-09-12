@@ -110,7 +110,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 payment.IsActive = model.IsActive;
                 _orderService.UpdateRecurringPayment(payment);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.RecurringPayments.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.RecurringPayments.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -141,7 +141,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _orderService.DeleteRecurringPayment(payment);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.RecurringPayments.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.RecurringPayments.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -178,9 +178,9 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 var errors = _orderProcessingService.ProcessNextRecurringPayment(payment).ToList();
                 if (errors.Any())
-                    errors.ForEach(error => _notificationService.ErrorNotification(HttpContext, error, false));
+                    errors.ForEach(error => _notificationService.ErrorNotification(error, false));
                 else
-                    _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.RecurringPayments.NextPaymentProcessed"), false);
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.RecurringPayments.NextPaymentProcessed"), false);
 
                 //prepare model
                 var model = _recurringPaymentModelFactory.PrepareRecurringPaymentModel(null, payment);
@@ -192,7 +192,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc, false);
+                _notificationService.ErrorNotification(exc, false);
 
                 //prepare model
                 var model = _recurringPaymentModelFactory.PrepareRecurringPaymentModel(null, payment);
@@ -222,10 +222,10 @@ namespace Nop.Web.Areas.Admin.Controllers
                 if (errors.Any())
                 {
                     foreach (var error in errors)
-                        _notificationService.ErrorNotification(HttpContext, error, false);
+                        _notificationService.ErrorNotification(error, false);
                 }
                 else
-                    _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.RecurringPayments.Cancelled"), false);
+                    _notificationService.SuccessNotification(_localizationService.GetResource("Admin.RecurringPayments.Cancelled"), false);
 
                 //prepare model
                 var model = _recurringPaymentModelFactory.PrepareRecurringPaymentModel(null, payment);
@@ -237,7 +237,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc, false);
+                _notificationService.ErrorNotification(exc, false);
 
                 //prepare model
                 var model = _recurringPaymentModelFactory.PrepareRecurringPaymentModel(null, payment);

@@ -100,7 +100,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             //whether discounts are ignored
             if (_catalogSettings.IgnoreDiscounts)
-                _notificationService.WarningNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Discounts.IgnoreDiscounts.Warning"));
+                _notificationService.WarningNotification(_localizationService.GetResource("Admin.Promotions.Discounts.IgnoreDiscounts.Warning"));
 
             //prepare model
             var model = _discountModelFactory.PrepareDiscountSearchModel(new DiscountSearchModel());
@@ -146,7 +146,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewDiscount",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewDiscount"), discount.Name), discount);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Discounts.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Discounts.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -229,7 +229,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditDiscount",
                     string.Format(_localizationService.GetResource("ActivityLog.EditDiscount"), discount.Name), discount);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Discounts.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Discounts.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -271,7 +271,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteDiscount",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteDiscount"), discount.Name), discount);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Promotions.Discounts.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Discounts.Deleted"));
 
             return RedirectToAction("List");
         }

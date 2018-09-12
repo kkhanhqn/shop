@@ -188,7 +188,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //Stores
                 SaveStoreMappings(country, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Countries.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Countries.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -248,7 +248,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //stores
                 SaveStoreMappings(country, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Countries.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Countries.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -288,13 +288,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("DeleteCountry",
                     string.Format(_localizationService.GetResource("ActivityLog.DeleteCountry"), country.Id), country);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Countries.Deleted"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Countries.Deleted"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = country.Id });
             }
         }
@@ -575,18 +575,18 @@ namespace Nop.Web.Areas.Admin.Controllers
                 {
                     var count = _importManager.ImportStatesFromTxt(importcsvfile.OpenReadStream());
 
-                    _notificationService.SuccessNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.Configuration.Countries.ImportSuccess"), count));
+                    _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.Configuration.Countries.ImportSuccess"), count));
 
                     return RedirectToAction("List");
                 }
 
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.UploadFile"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }

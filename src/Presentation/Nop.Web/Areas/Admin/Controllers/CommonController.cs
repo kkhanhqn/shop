@@ -182,7 +182,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 catch (Exception exc)
                 {
-                    _notificationService.ErrorNotification(HttpContext, exc, false);
+                    _notificationService.ErrorNotification(exc, false);
                 }
             }
 
@@ -211,11 +211,11 @@ namespace Nop.Web.Areas.Admin.Controllers
             try
             {
                 _maintenanceService.BackupDatabase();
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.BackupCreated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.BackupCreated"));
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
             }
 
             return View(model);
@@ -231,11 +231,11 @@ namespace Nop.Web.Areas.Admin.Controllers
             try
             {
                 _maintenanceService.ReIndexTables();
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.Maintenance.ReIndexTables.Complete"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Maintenance.ReIndexTables.Complete"));
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
             }
 
             return View(model);
@@ -260,20 +260,20 @@ namespace Nop.Web.Areas.Admin.Controllers
                     case "delete-backup":
                         {
                             _fileProvider.DeleteFile(backupPath);
-                            _notificationService.SuccessNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.BackupDeleted"), fileName));
+                            _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.BackupDeleted"), fileName));
                         }
                         break;
                     case "restore-backup":
                         {
                             _maintenanceService.RestoreDatabase(backupPath);
-                            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.DatabaseRestored"));
+                            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Maintenance.BackupDatabase.DatabaseRestored"));
                         }
                         break;
                 }
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
             }
 
             return View(model);

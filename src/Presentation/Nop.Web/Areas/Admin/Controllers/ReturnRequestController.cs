@@ -159,7 +159,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditReturnRequest",
                     string.Format(_localizationService.GetResource("ActivityLog.EditReturnRequest"), returnRequest.Id), returnRequest);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ReturnRequests.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ReturnRequests.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = returnRequest.Id }) : RedirectToAction("List");
             }
@@ -186,13 +186,13 @@ namespace Nop.Web.Areas.Admin.Controllers
             var orderItem = _orderService.GetOrderItemById(returnRequest.OrderItemId);
             if (orderItem == null)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.ReturnRequests.OrderItemDeleted"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.ReturnRequests.OrderItemDeleted"));
                 return RedirectToAction("Edit", new { id = returnRequest.Id });
             }
 
             var queuedEmailIds = _workflowMessageService.SendReturnRequestStatusChangedCustomerNotification(returnRequest, orderItem, orderItem.Order.CustomerLanguageId);
             if (queuedEmailIds.Any())
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ReturnRequests.Notified"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ReturnRequests.Notified"));
 
             return RedirectToAction("Edit", new { id = returnRequest.Id });
         }
@@ -214,7 +214,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteReturnRequest",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteReturnRequest"), returnRequest.Id), returnRequest);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ReturnRequests.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ReturnRequests.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -270,7 +270,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(returnRequestReason, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Added"));
 
                 return continueEditing 
                     ? RedirectToAction("ReturnRequestReasonEdit", new { id = returnRequestReason.Id })
@@ -319,7 +319,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(returnRequestReason, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("ReturnRequestReasonList");
@@ -349,7 +349,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _returnRequestService.DeleteReturnRequestReason(returnRequestReason);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestReasons.Deleted"));
 
             return RedirectToAction("ReturnRequestReasonList");
         }
@@ -407,7 +407,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(returnRequestAction, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Added"));
 
                 return continueEditing 
                     ? RedirectToAction("ReturnRequestActionEdit", new { id = returnRequestAction.Id }) 
@@ -456,7 +456,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(returnRequestAction, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("ReturnRequestActionList");
@@ -486,7 +486,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _returnRequestService.DeleteReturnRequestAction(returnRequestAction);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Settings.Order.ReturnRequestActions.Deleted"));
 
             return RedirectToAction("ReturnRequestActionList");
         }

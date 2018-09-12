@@ -155,7 +155,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //Stores
                 SaveStoreMappings(language, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Languages.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -206,7 +206,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var allLanguages = _languageService.GetAllLanguages(loadCacheableCopy: false);
                 if (allLanguages.Count == 1 && allLanguages[0].Id == language.Id && !model.Published)
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.PublishedLanguageRequired"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Configuration.Languages.PublishedLanguageRequired"));
                     return RedirectToAction("Edit", new { id = language.Id });
                 }
 
@@ -222,7 +222,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 SaveStoreMappings(language, model);
 
                 //notification
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Languages.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -255,7 +255,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             var allLanguages = _languageService.GetAllLanguages(loadCacheableCopy: false);
             if (allLanguages.Count == 1 && allLanguages[0].Id == language.Id)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.PublishedLanguageRequired"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Configuration.Languages.PublishedLanguageRequired"));
                 return RedirectToAction("Edit", new { id = language.Id });
             }
 
@@ -267,7 +267,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteLanguage"), language.Id), language);
 
             //notification
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Languages.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -419,7 +419,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -446,16 +446,16 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.UploadFile"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
                     return RedirectToAction("Edit", new {id = language.Id});
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Languages.Imported"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Languages.Imported"));
                 return RedirectToAction("Edit", new { id = language.Id });
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = language.Id });
             }
         }

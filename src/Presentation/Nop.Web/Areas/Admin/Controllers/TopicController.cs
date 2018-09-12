@@ -225,7 +225,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(topic, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Topics.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Topics.Added"));
 
                 //activity log
                 _customerActivityService.InsertActivity("AddNewTopic",
@@ -295,7 +295,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(topic, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Topics.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Topics.Updated"));
 
                 //activity log
                 _customerActivityService.InsertActivity("EditTopic",
@@ -330,7 +330,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _topicService.DeleteTopic(topic);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.Topics.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.Topics.Deleted"));
 
             //activity log
             _customerActivityService.InsertActivity("DeleteTopic",

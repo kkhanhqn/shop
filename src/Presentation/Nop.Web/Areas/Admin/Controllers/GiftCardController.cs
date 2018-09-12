@@ -131,7 +131,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewGiftCard",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewGiftCard"), giftCard.GiftCardCouponCode), giftCard);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.GiftCards.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.GiftCards.Added"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = giftCard.Id }) : RedirectToAction("List");
             }
@@ -187,7 +187,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditGiftCard",
                     string.Format(_localizationService.GetResource("ActivityLog.EditGiftCard"), giftCard.GiftCardCouponCode), giftCard);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.GiftCards.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.GiftCards.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -264,7 +264,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc, false);
+                _notificationService.ErrorNotification(exc, false);
             }
 
             return View(model);
@@ -287,7 +287,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteGiftCard",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteGiftCard"), giftCard.GiftCardCouponCode), giftCard);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.GiftCards.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.GiftCards.Deleted"));
 
             return RedirectToAction("List");
         }

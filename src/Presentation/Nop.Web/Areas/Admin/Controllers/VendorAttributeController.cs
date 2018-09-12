@@ -132,7 +132,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(vendorAttribute, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.VendorAttributes.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.VendorAttributes.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -189,7 +189,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(vendorAttribute, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.VendorAttributes.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.VendorAttributes.Updated"));
                 if (!continueEditing)
                     return RedirectToAction("List");
 
@@ -223,7 +223,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteVendorAttribute",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteVendorAttribute"), vendorAttribute.Id), vendorAttribute);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.VendorAttributes.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.VendorAttributes.Deleted"));
 
             return RedirectToAction("List");
         }

@@ -1703,7 +1703,7 @@ namespace Nop.Web.Controllers
 
                 if (allWarnings.Any())
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Wishlist.AddToCart.Error"), true);
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Wishlist.AddToCart.Error"), true);
                 }
 
                 return RedirectToRoute("ShoppingCart");
@@ -1712,7 +1712,7 @@ namespace Nop.Web.Controllers
 
             if (allWarnings.Any())
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Wishlist.AddToCart.Error"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Wishlist.AddToCart.Error"), false);
             }
 
             var cart = _shoppingCartService.GetShoppingCart(pageCustomer, ShoppingCartType.Wishlist, _storeContext.CurrentStore.Id);

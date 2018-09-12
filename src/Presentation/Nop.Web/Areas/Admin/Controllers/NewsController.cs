@@ -159,7 +159,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //Stores
                 SaveStoreMappings(newsItem, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -222,7 +222,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //stores
                 SaveStoreMappings(newsItem, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -257,7 +257,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteNews",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteNews"), newsItem.Id), newsItem);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.News.NewsItems.Deleted"));
 
             return RedirectToAction("List");
         }

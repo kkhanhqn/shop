@@ -139,7 +139,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewProductAttribute",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewProductAttribute"), productAttribute.Name), productAttribute);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -195,7 +195,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditProductAttribute",
                     string.Format(_localizationService.GetResource("ActivityLog.EditProductAttribute"), productAttribute.Name), productAttribute);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -230,7 +230,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteProductAttribute",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteProductAttribute"), productAttribute.Name), productAttribute);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.ProductAttributes.Deleted"));
 
             return RedirectToAction("List");
         }

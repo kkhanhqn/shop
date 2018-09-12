@@ -123,9 +123,9 @@ namespace Nop.Plugin.Payments.Square.Controllers
 
             //warn admin that the location is a required parameter
             if (string.IsNullOrEmpty(_squarePaymentSettings.LocationId) || _squarePaymentSettings.LocationId.Equals("0"))
-                _notificationService.WarningNotification(HttpContext, _localizationService.GetResource("Plugins.Payments.Square.Fields.Location.Hint"));
+                _notificationService.WarningNotification(_localizationService.GetResource("Plugins.Payments.Square.Fields.Location.Hint"));
             else
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }
@@ -189,14 +189,14 @@ namespace Nop.Plugin.Payments.Square.Controllers
                 _squarePaymentSettings.AccessToken = accessToken;
                 _settingService.SaveSetting(_squarePaymentSettings);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Plugins.Payments.Square.ObtainAccessToken.Success"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Plugins.Payments.Square.ObtainAccessToken.Success"));
             }
             catch (Exception exception)
             {
                 //display errors
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Plugins.Payments.Square.ObtainAccessToken.Error"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Plugins.Payments.Square.ObtainAccessToken.Error"));
                 if (!string.IsNullOrEmpty(exception.Message))
-                    _notificationService.ErrorNotification(HttpContext, exception.Message);
+                    _notificationService.ErrorNotification(exception.Message);
             }
 
             return RedirectToAction("Configure", "PaymentSquare", new { area = AreaNames.Admin });
@@ -229,13 +229,13 @@ namespace Nop.Plugin.Payments.Square.Controllers
                 _squarePaymentSettings.AccessToken = string.Empty;
                 _settingService.SaveSetting(_squarePaymentSettings);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Plugins.Payments.Square.RevokeAccessTokens.Success"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Plugins.Payments.Square.RevokeAccessTokens.Success"));
             }
             catch (Exception exception)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Plugins.Payments.Square.RevokeAccessTokens.Error"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Plugins.Payments.Square.RevokeAccessTokens.Error"));
                 if (!string.IsNullOrEmpty(exception.Message))
-                    _notificationService.ErrorNotification(HttpContext, exception.Message);
+                    _notificationService.ErrorNotification(exception.Message);
             }
 
             return Configure();

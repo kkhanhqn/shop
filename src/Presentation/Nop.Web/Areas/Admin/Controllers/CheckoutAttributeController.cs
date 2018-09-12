@@ -249,7 +249,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewCheckoutAttribute",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewCheckoutAttribute"), checkoutAttribute.Name), checkoutAttribute);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -310,7 +310,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditCheckoutAttribute",
                     string.Format(_localizationService.GetResource("ActivityLog.EditCheckoutAttribute"), checkoutAttribute.Name), checkoutAttribute);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -345,7 +345,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteCheckoutAttribute",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteCheckoutAttribute"), checkoutAttribute.Name), checkoutAttribute);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Attributes.CheckoutAttributes.Deleted"));
 
             return RedirectToAction("List");
         }

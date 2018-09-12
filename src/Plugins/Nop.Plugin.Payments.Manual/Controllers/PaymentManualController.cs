@@ -103,7 +103,7 @@ namespace Nop.Plugin.Payments.Manual.Controllers
             //now clear settings cache
             _settingService.ClearCache();
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 
             return Configure();
         }

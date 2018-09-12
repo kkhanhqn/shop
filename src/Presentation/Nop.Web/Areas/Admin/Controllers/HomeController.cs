@@ -57,7 +57,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 if (warnings.Any(warning => warning.Level == SystemWarningLevel.Fail ||
                                             warning.Level == SystemWarningLevel.CopyrightRemovalKey ||
                                             warning.Level == SystemWarningLevel.Warning))
-                    _notificationService.WarningNotification(HttpContext, _localizationService.GetResource("Admin.System.Warnings.Errors"), false);
+                    _notificationService.WarningNotification(_localizationService.GetResource("Admin.System.Warnings.Errors"), false);
             }
 
             //prepare model

@@ -277,7 +277,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewCategory",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewCategory"), category.Name), category);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Categories.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -379,7 +379,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditCategory",
                     string.Format(_localizationService.GetResource("ActivityLog.EditCategory"), category.Name), category);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Categories.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -414,7 +414,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteCategory",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteCategory"), category.Name), category);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Categories.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -436,7 +436,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -455,7 +455,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -478,17 +478,17 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.UploadFile"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
                     return RedirectToAction("List");
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Categories.Imported"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Categories.Imported"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }

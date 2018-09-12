@@ -128,7 +128,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(store, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Stores.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Stores.Added"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = store.Id }) : RedirectToAction("List");
             }
@@ -185,7 +185,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateAttributeLocales(store, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Stores.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Stores.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = store.Id }) : RedirectToAction("List");
             }
@@ -234,13 +234,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     _settingService.DeleteSettings(settingsToDelete);
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Stores.Deleted"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Stores.Deleted"));
 
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("Edit", new { id = store.Id });
             }
         }

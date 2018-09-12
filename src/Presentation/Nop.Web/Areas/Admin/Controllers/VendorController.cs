@@ -290,7 +290,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //update picture seo file name
                 UpdatePictureSeoNames(vendor);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -400,7 +400,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //update picture seo file name
                 UpdatePictureSeoNames(vendor);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -444,7 +444,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteVendor",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteVendor"), vendor.Id), vendor);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Vendors.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Vendors.Deleted"));
 
             return RedirectToAction("List");
         }

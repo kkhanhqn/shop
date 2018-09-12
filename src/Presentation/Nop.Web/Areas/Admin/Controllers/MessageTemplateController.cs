@@ -193,7 +193,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //locales
                 UpdateLocales(messageTemplate, model);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -225,7 +225,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteMessageTemplate",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteMessageTemplate"), messageTemplate.Id), messageTemplate);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -246,13 +246,13 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 var newMessageTemplate = _messageTemplateService.CopyMessageTemplate(messageTemplate);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Copied"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Copied"));
 
                 return RedirectToAction("Edit", new { id = newMessageTemplate.Id });
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc.Message);
+                _notificationService.ErrorNotification(exc.Message);
                 return RedirectToAction("Edit", new { id = model.Id });
             }
         }
@@ -312,7 +312,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Test.Success"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.ContentManagement.MessageTemplates.Test.Success"));
             }
 
             return RedirectToAction("Edit", new { id = messageTemplate.Id });

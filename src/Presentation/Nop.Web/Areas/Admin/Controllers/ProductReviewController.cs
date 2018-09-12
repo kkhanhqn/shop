@@ -173,7 +173,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                         _eventPublisher.Publish(new ProductReviewApprovedEvent(productReview));
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.ProductReviews.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.ProductReviews.Updated"));
 
                 return continueEditing ? RedirectToAction("Edit", new { id = productReview.Id }) : RedirectToAction("List");
             }
@@ -210,7 +210,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //update product totals
             _productService.UpdateProductReviewTotals(product);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.ProductReviews.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.ProductReviews.Deleted"));
 
             return RedirectToAction("List");
         }

@@ -155,17 +155,17 @@ namespace Nop.Web.Areas.Admin.Controllers
                 {
                     var count = _importManager.ImportNewsletterSubscribersFromTxt(importcsvfile.OpenReadStream());
 
-                    _notificationService.SuccessNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.Promotions.NewsLetterSubscriptions.ImportEmailsSuccess"), count));
+                    _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.Promotions.NewsLetterSubscriptions.ImportEmailsSuccess"), count));
 
                     return RedirectToAction("List");
                 }
 
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.UploadFile"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }

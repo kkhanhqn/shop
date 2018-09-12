@@ -804,7 +804,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (_vendorSettings.MaximumProductNumber > 0 && _workContext.CurrentVendor != null
                 && _productService.GetNumberOfProductsByVendorId(_workContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
             {
-                _notificationService.ErrorNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"),
+                _notificationService.ErrorNotification(string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"),
                     _vendorSettings.MaximumProductNumber));
                 return RedirectToAction("List");
             }
@@ -825,7 +825,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (_vendorSettings.MaximumProductNumber > 0 && _workContext.CurrentVendor != null
                 && _productService.GetNumberOfProductsByVendorId(_workContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
             {
-                _notificationService.ErrorNotification(HttpContext, string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"),
+                _notificationService.ErrorNotification(string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"),
                     _vendorSettings.MaximumProductNumber));
                 return RedirectToAction("List");
             }
@@ -882,7 +882,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewProduct",
                     string.Format(_localizationService.GetResource("ActivityLog.AddNewProduct"), product.Name), product);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Added"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Added"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -940,7 +940,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //and redirect on the editing page without data saving
             if (product.StockQuantity != model.LastStockQuantity)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Fields.StockQuantity.ChangedWarning"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Products.Fields.StockQuantity.ChangedWarning"));
                 return RedirectToAction("Edit", new { id = product.Id });
             }
 
@@ -1064,7 +1064,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _customerActivityService.InsertActivity("EditProduct",
                     string.Format(_localizationService.GetResource("ActivityLog.EditProduct"), product.Name), product);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Updated"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Updated"));
 
                 if (!continueEditing)
                     return RedirectToAction("List");
@@ -1103,7 +1103,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             _customerActivityService.InsertActivity("DeleteProduct",
                 string.Format(_localizationService.GetResource("ActivityLog.DeleteProduct"), product.Name), product);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Deleted"));
 
             return RedirectToAction("List");
         }
@@ -1139,13 +1139,13 @@ namespace Nop.Web.Areas.Admin.Controllers
 
                 var newProduct = _copyProductService.CopyProduct(originalProduct, copyModel.Name, copyModel.Published, copyModel.CopyImages);
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Copied"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Copied"));
 
                 return RedirectToAction("Edit", new { id = newProduct.Id });
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc.Message);
+                _notificationService.ErrorNotification(exc.Message);
                 return RedirectToAction("Edit", new { id = copyModel.Id });
             }
         }
@@ -2002,7 +2002,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -2053,7 +2053,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -2130,7 +2130,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -2179,16 +2179,16 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 else
                 {
-                    _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Common.UploadFile"));
+                    _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.UploadFile"));
                     return RedirectToAction("List");
                 }
 
-                _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.Imported"));
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Imported"));
                 return RedirectToAction("List");
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(HttpContext, exc);
+                _notificationService.ErrorNotification(exc);
                 return RedirectToAction("List");
             }
         }
@@ -2508,7 +2508,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("This is not your product"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
                 return RedirectToAction("List");
             }
 
@@ -2531,7 +2531,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("This is not your product"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
                 return RedirectToAction("List");
             }
 
@@ -2540,7 +2540,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 .Any(x => x.ProductAttributeId == model.ProductAttributeId))
             {
                 //redisplay form
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
 
                 model = _productModelFactory.PrepareProductAttributeMappingModel(model, product, null, true);
 
@@ -2595,7 +2595,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Added"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Added"));
 
             if (!continueEditing)
             {
@@ -2626,7 +2626,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("This is not your product"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
                 return RedirectToAction("List");
             }
 
@@ -2653,7 +2653,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
             {
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("This is not your product"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("This is not your product"));
                 return RedirectToAction("List");
             }
 
@@ -2662,7 +2662,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 .Any(x => x.ProductAttributeId == model.ProductAttributeId && x.Id != productAttributeMapping.Id))
             {
                 //redisplay form
-                _notificationService.ErrorNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.AlreadyExists"));
 
                 model = _productModelFactory.PrepareProductAttributeMappingModel(model, product, productAttributeMapping, true);
 
@@ -2685,7 +2685,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             SaveConditionAttributes(productAttributeMapping, model.ConditionModel);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Updated"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Updated"));
 
             if (!continueEditing)
             {
@@ -2720,7 +2720,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             _productAttributeService.DeleteProductAttributeMapping(productAttributeMapping);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.ProductAttributes.Attributes.Deleted"));
 
             SaveSelectedTabName("tab-product-attributes");
 

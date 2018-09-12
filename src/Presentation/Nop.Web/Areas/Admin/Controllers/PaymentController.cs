@@ -168,7 +168,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 _paymentService.SaveRestictedCountryIds(pm, newCountryIds);
             }
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.Configuration.Payment.MethodRestrictions.Updated"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.Payment.MethodRestrictions.Updated"));
 
             //selected tab
             SaveSelectedTabName();

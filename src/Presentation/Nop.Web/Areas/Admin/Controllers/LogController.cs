@@ -85,7 +85,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //activity log
             _customerActivityService.InsertActivity("DeleteSystemLog", _localizationService.GetResource("ActivityLog.DeleteSystemLog"));
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.Log.Cleared"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Log.Cleared"));
 
             return RedirectToAction("List");
         }
@@ -122,7 +122,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //activity log
             _customerActivityService.InsertActivity("DeleteSystemLog", _localizationService.GetResource("ActivityLog.DeleteSystemLog"), log);
 
-            _notificationService.SuccessNotification(HttpContext, _localizationService.GetResource("Admin.System.Log.Deleted"));
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.System.Log.Deleted"));
 
             return RedirectToAction("List");
         }
