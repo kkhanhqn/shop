@@ -1408,10 +1408,30 @@ namespace Nop.Services.Orders
         /// <summary>
         /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
         /// </summary>
+        /// <param name="orderShippingInclTax">Order shipping (including tax)</param>
+        /// <param name="cart">List of cart items</param>
+        /// <returns>Applicable order total</returns>
+        public virtual decimal CalculateApplicableOrderTotalForRewardPoints(decimal orderShippingInclTax, IEnumerable<ShoppingCartItem> cart)
+        {
+            //Select only allowed cart items
+            var allowedCart = cart.Where(item => item.Product.ConsiderWhenAwardingPoints).ToList();
+
+            if (!allowedCart.Any())
+                return decimal.Zero;
+
+            //Get total shopping card only with allowed items include taxes
+            var filteredCartTotalBase = GetShoppingCartTotal(allowedCart, out decimal _, out List<DiscountForCaching> _, out List<AppliedGiftCard> _, out int _, out decimal _);
+            return CalculateApplicableOrderTotalForRewardPoints(orderShippingInclTax, filteredCartTotalBase.Value);
+        }
+
+        /// <summary>
+        /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
+        /// </summary>
         /// <param name="order">Order</param>
         /// <returns>Applicable order total</returns>
         public virtual decimal CalculateApplicableOrderTotalForRewardPoints(Order order)
         {
+            //Get order total price excluding disallowed items
             var orderTotal = order.OrderTotal - order.OrderItems
             .Where(item => !item.Product.ConsiderWhenAwardingPoints)
             .Select(item => item.PriceInclTax)

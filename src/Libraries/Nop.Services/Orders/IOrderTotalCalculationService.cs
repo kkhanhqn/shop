@@ -186,6 +186,14 @@ namespace Nop.Services.Orders
         /// <summary>
         /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
         /// </summary>
+        /// <param name="orderShippingInclTax">Order shipping (including tax)</param>
+        /// <param name="cart">List of car items</param>
+        /// <returns>Applicable order total</returns>
+        decimal CalculateApplicableOrderTotalForRewardPoints(decimal orderShippingInclTax, IEnumerable<ShoppingCartItem> cart);
+
+        /// <summary>
+        /// Calculate how order total (maximum amount) for which reward points could be earned/reduced
+        /// </summary>
         /// <param name="order">Order</param>
         /// <returns>Applicable order total</returns>
         decimal CalculateApplicableOrderTotalForRewardPoints(Order order);
