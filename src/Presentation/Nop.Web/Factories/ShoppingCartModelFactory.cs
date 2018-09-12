@@ -1199,7 +1199,7 @@ namespace Nop.Web.Factories
                     //get shipping total
                     var shippingBaseInclTax = !model.RequiresShipping ? 0 : _orderTotalCalculationService.GetShoppingCartShippingTotal(cart, true) ?? 0;
 
-                    var allowedCart = cart.Where(item => item.Product.ConsiderRewardPoints).ToList();
+                    var allowedCart = cart.Where(item => item.Product.ConsiderWhenAwardingPoints).ToList();
 
                     if (allowedCart.Any())
                     {

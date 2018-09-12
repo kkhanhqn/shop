@@ -45,8 +45,8 @@ namespace Nop.Web.Areas.Admin.Models.Settings
         [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.AllowCustomerReviews")]
         public bool AllowCustomerReviews { get; set; }
 
-        [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.ConsiderRewardPoints")]
-        public bool ConsiderRewardPoints { get; set; }
+        [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.ConsiderWhenAwardingPoints")]
+        public bool ConsiderWhenAwardingPoints { get; set; }
 
         [NopResourceDisplayName("Admin.Configuration.Settings.ProductEditor.ProductTags")]
         public bool ProductTags { get; set; }

@@ -1413,21 +1413,13 @@ namespace Nop.Services.Orders
         public virtual decimal CalculateApplicableOrderTotalForRewardPoints(Order order)
         {
             var orderTotal = order.OrderTotal - order.OrderItems
-            .Where(item => !item.Product.ConsiderRewardPoints)
+            .Where(item => !item.Product.ConsiderWhenAwardingPoints)
             .Select(item => item.PriceInclTax)
             .Sum();
 
-            //do you give reward points for order total? or do you exclude shipping?
-            //since shipping costs vary some of store owners don't give reward points based on shipping total
-            //you can put your custom logic here
-            var totalForRewardPoints = orderTotal - order.OrderShippingInclTax;
-
-            //check the minimum total to award points
-            if (totalForRewardPoints < _rewardPointsSettings.MinOrderTotalToAwardPoints)
-                return decimal.Zero;
-
-            return totalForRewardPoints;
+            return CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, orderTotal);
         }
+
 
         /// <summary>
         /// Calculate how much reward points will be earned/reduced based on certain amount spent

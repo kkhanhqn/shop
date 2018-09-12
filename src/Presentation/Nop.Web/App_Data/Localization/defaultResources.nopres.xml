@@ -2790,10 +2790,10 @@
   <LocaleResource Name="Admin.Catalog.Products.Fields.CallForPrice.Hint">
     <Value>Check to show "Call for Pricing" or "Call for quote" instead of price.</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderRewardPoints">
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderWhenAwardingPoints">
     <Value>Consider product when calculate reward points</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderRewardPoints.Hint">
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderWhenAwardingPoints.Hint">
     <Value>Check to consider this product when calculate reward points.</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.CreatedOn">
@@ -7641,7 +7641,7 @@
   <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.CallForPrice">
     <Value>Call for price</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.ConsiderRewardPoints">
+  <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.ConsiderWhenAwardingPoints">
     <Value>Consider product when calculate reward points</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.CreatedOn">

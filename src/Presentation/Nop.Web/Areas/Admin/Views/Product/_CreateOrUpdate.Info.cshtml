@@ -663,13 +663,13 @@
                             <span asp-validation-for="AllowCustomerReviews"></span>
                         </div>
                     </div>
-                    <div class="form-group @(Model.ProductEditorSettingsModel.ConsiderRewardPoints ? null : "advanced-setting")">
+                    <div class="form-group @(Model.ProductEditorSettingsModel.ConsiderWhenAwardingPoints ? null : "advanced-setting")">
                         <div class="col-md-3">
-                            <nop-label asp-for="ConsiderRewardPoints" />
+                            <nop-label asp-for="ConsiderWhenAwardingPoints" />
                         </div>
                         <div class="col-md-9">
-                            <nop-editor asp-for="ConsiderRewardPoints" />
-                            <span asp-validation-for="ConsiderRewardPoints"></span>
+                            <nop-editor asp-for="ConsiderWhenAwardingPoints" />
+                            <span asp-validation-for="ConsiderWhenAwardingPoints"></span>
                         </div>
                     </div>
                     <div class="form-group @(Model.ProductEditorSettingsModel.AvailableStartDate ? null : "advanced-setting")">

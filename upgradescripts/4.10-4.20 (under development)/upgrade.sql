@@ -26,6 +26,15 @@ set @resources='
    <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.UseResponseCompression.Hint">
     <Value>Enable to compress response (gzip by default). You can disable it if you have an active IIS Dynamic Compression Module configured at the server level.</Value>
   </LocaleResource>   
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderWhenAwardingPoints">
+    <Value>Consider product when calculate reward points</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Products.Fields.ConsiderWhenAwardingPoints.Hint">
+    <Value>Check to consider this product when calculate reward points.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.ProductEditor.ConsiderWhenAwardingPoints">
+    <Value>Consider product when calculate reward points</Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -122,4 +131,18 @@ BEGIN
 END
 GO
 
-ALTER TABLE [Product] ADD [ConsiderRewardPoints] BIT NOT NULL DEFAULT 1
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[Product]') and NAME='ConsiderWhenAwardingPoints')
+BEGIN
+	ALTER TABLE [Product]
+	ADD [ConsiderWhenAwardingPoints] bit NULL
+END
+GO
+
+UPDATE [Product]
+SET [ConsiderWhenAwardingPoints] = 1
+WHERE [ConsiderWhenAwardingPoints] IS NULL
+GO
+
+ALTER TABLE [Product] ALTER COLUMN [ConsiderWhenAwardingPoints] bit NOT NULL
+GO

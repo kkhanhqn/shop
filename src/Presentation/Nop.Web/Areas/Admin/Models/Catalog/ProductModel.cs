@@ -131,8 +131,8 @@ namespace Nop.Web.Areas.Admin.Models.Catalog
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.AllowCustomerReviews")]
         public bool AllowCustomerReviews { get; set; }
 
-        [NopResourceDisplayName("Admin.Catalog.Products.Fields.ConsiderRewardPoints")]
-        public bool ConsiderRewardPoints { get; set; }
+        [NopResourceDisplayName("Admin.Catalog.Products.Fields.ConsiderWhenAwardingPoints")]
+        public bool ConsiderWhenAwardingPoints { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.ProductTags")]
         public string ProductTags { get; set; }

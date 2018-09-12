@@ -845,7 +845,7 @@ namespace Nop.Web.Areas.Admin.Factories
                 model.UnlimitedDownloads = true;
                 model.IsShipEnabled = true;
                 model.AllowCustomerReviews = true;
-                model.ConsiderRewardPoints = true;
+                model.ConsiderWhenAwardingPoints = true;
                 model.Published = true;
                 model.VisibleIndividually = true;
             }
