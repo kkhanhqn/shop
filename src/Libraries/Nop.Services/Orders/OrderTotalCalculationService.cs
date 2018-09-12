@@ -1420,7 +1420,6 @@ namespace Nop.Services.Orders
             return CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, orderTotal);
         }
 
-
         /// <summary>
         /// Calculate how much reward points will be earned/reduced based on certain amount spent
         /// </summary>
