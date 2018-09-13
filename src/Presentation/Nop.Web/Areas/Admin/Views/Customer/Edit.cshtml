@@ -1,3 +1,4 @@
+@using Nop.Core.Domain.Common;
 @model CustomerModel
 
 @{
@@ -118,7 +119,14 @@
                                 <nop-label asp-for="SendEmail.Body" />
                             </div>
                             <div class="col-md-7">
-                                <nop-textarea asp-for="SendEmail.Body" />
+                                @if (EngineContext.Current.Resolve<AdminAreaSettings>().UseRichEditorForCustomerEmails)
+                                {
+                                    <nop-editor asp-for="SendEmail.Body" asp-template="RichEditor" />
+                                }
+                                else
+                                {
+                                    <nop-textarea asp-for="SendEmail.Body" />
+                                }
                                 <span asp-validation-for="SendEmail.Body"></span>
                             </div>
                         </div>
