@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,13 +10,9 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core;
-using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
-using Nop.Services.Common;
 using Nop.Services.Localization;
-using Nop.Services.Logging;
 using Nop.Services.Messages;
-using Nop.Services.Stores;
 using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.Filters;
@@ -56,6 +51,13 @@ namespace Nop.Web.Framework.Controllers
             var actionContextAccessor = HttpContext.RequestServices.GetService(typeof(IActionContextAccessor)) as IActionContextAccessor;
             if (actionContextAccessor == null)
                 throw new Exception("IActionContextAccessor cannot be resolved");
+
+            //If notification list is defined, they are extracted from context and added to a controller
+            if (HttpContext.Items[NopMessageDefaults.NotificationListKey] is IList<NotifyData>)
+            {
+                foreach (var note in (IList<NotifyData>)HttpContext.Items[NopMessageDefaults.NotificationListKey])
+                    AddNotification(note.Type, note.Message, note.PersistForTheNextRequest);
+            }
 
             var context = actionContextAccessor.ActionContext;
 
@@ -170,19 +172,6 @@ namespace Nop.Web.Framework.Controllers
         #endregion
 
         #region Notifications
-
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            base.OnActionExecuted(context);
-
-            if (!(context.HttpContext.Items[NotificationDefaults.MessageListKey] is IList<NotifyData>))
-                return;
-
-            // Extract notifications from context and add them to a controller
-            foreach (var note in (IList<NotifyData>)context.HttpContext.Items[NotificationDefaults.MessageListKey]) {
-                AddNotification(note.Type, note.Message, note.PersistForTheNextRequest);
-            }
-        }
 
         /// <summary>
         /// Display notification

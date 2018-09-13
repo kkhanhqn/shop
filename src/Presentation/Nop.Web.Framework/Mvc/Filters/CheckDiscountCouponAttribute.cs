@@ -9,7 +9,6 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Customers;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
-using Nop.Services.Messages;
 
 namespace Nop.Web.Framework.Mvc.Filters
 {
