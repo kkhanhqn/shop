@@ -42,7 +42,7 @@ namespace Nop.Services.Messages
         /// <param name="context">HttpContext</param>
         public virtual void ErrorNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
         {
-            PrepareContext(context ?? _httpContextAccessor.HttpContext, NotifyType.Error, message, persistForTheNextRequest);
+            AddNotification(context, NotifyType.Error, message, persistForTheNextRequest);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Nop.Services.Messages
         /// <param name="context">HttpContext</param>
         public virtual void SuccessNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
         {
-            PrepareContext(context ?? _httpContextAccessor.HttpContext, NotifyType.Success, message, persistForTheNextRequest);
+            AddNotification(context, NotifyType.Success, message, persistForTheNextRequest);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Nop.Services.Messages
         /// <param name="context">HttpContext</param>
         public virtual void WarningNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
         {
-            PrepareContext(context ?? _httpContextAccessor.HttpContext, NotifyType.Warning, message, persistForTheNextRequest);
+            AddNotification(context, NotifyType.Warning, message, persistForTheNextRequest);
         }
 
         #endregion
@@ -87,13 +87,29 @@ namespace Nop.Services.Messages
         #region Utilities
 
         /// <summary>
+        /// Add notification
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <param name="type">Notification type (success/warning/error)</param>
+        /// <param name="message">Message</param>
+        /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
+        protected virtual void AddNotification(HttpContext context, NotifyType type, string message, bool persistForTheNextRequest)
+        {
+            //If a message should be persisted for the next request, it saved into a session
+            if (persistForTheNextRequest)
+                PrepareSession(context ?? _httpContextAccessor.HttpContext, type, message);
+            else
+                PrepareContext(context ?? _httpContextAccessor.HttpContext, type, message);
+        }
+
+        /// <summary>
         /// Add message information to HttpContext
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="type">Message type (success/warning/error)</param>
-        /// <param name="message">Message text</param>
+        /// <param name="type">Notification type (success/warning/error)</param>
+        /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        protected virtual void PrepareContext(HttpContext context, NotifyType type, string message, bool persistForTheNextRequest)
+        protected virtual void PrepareContext(HttpContext context, NotifyType type, string message)
         {
             //Initialize list of messages if dictionary value is null
             if (context.Items[NopMessageDefaults.NotificationListKey] == null)
@@ -109,15 +125,31 @@ namespace Nop.Services.Messages
                 {
                     Type = type,
                     Message = message,
-                    PersistForTheNextRequest = persistForTheNextRequest
                 });
+        }
+
+        /// <summary>
+        /// Save message into session
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <param name="type">Notification type</param>
+        /// <param name="message">Message</param>
+        protected virtual void PrepareSession(HttpContext context, NotifyType type, string message)
+        {
+            var msgList = context.Session.Get<IList<NotifyData>>(NopMessageDefaults.NotificationListKey) ?? new List<NotifyData>();
+            msgList.Add(new NotifyData
+            {
+                Message = message,
+                Type = type
+            });
+            context.Session.Set<IList<NotifyData>>(NopMessageDefaults.NotificationListKey, msgList);
         }
 
         /// <summary>
         /// Log exception
         /// </summary>
         /// <param name="exception">Exception</param>
-        protected void LogException(Exception exception)
+        protected virtual void LogException(Exception exception)
         {
             var customer = _workContext.CurrentCustomer;
             _logger.Error(exception.Message, exception, customer);

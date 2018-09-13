@@ -1,40 +1,52 @@
 ﻿@using System.Text.Encodings.Web
+@using Nop.Services;
 @using Nop.Services.Messages
 @{
-    //success messages
     var successMessages = new List<string>();
-    if (TempData[$"nop.notifications.{NotifyType.Success}"] != null)
-    {
-        successMessages.AddRange(TempData[$"nop.notifications.{NotifyType.Success}"] as IList<string>);
-    }
-    if (ViewData[$"nop.notifications.{NotifyType.Success}"] != null)
-    {
-        successMessages.AddRange(ViewData[$"nop.notifications.{NotifyType.Success}"] as IList<string>);
-    }
-
-
-    //error messages
     var errorMessages = new List<string>();
-    if (TempData[$"nop.notifications.{NotifyType.Error}"] != null)
-    {
-        errorMessages.AddRange(TempData[$"nop.notifications.{NotifyType.Error}"] as IList<string>);
-    }
-    if (ViewData[$"nop.notifications.{NotifyType.Error}"] != null)
-    {
-        errorMessages.AddRange(ViewData[$"nop.notifications.{NotifyType.Error}"] as IList<string>);
-    }
-
-
-    //warning messages
     var warningMessages = new List<string>();
-    if (TempData[$"nop.notifications.{NotifyType.Warning}"] != null)
+
+    //Get messages from temporary storage
+    if (Context.Items[NopMessageDefaults.NotificationListKey] is IList<NotifyData>)
     {
-        warningMessages.AddRange(TempData[$"nop.notifications.{NotifyType.Warning}"] as IList<string>);
+        foreach (var note in (IList<NotifyData>)Context.Items[NopMessageDefaults.NotificationListKey])
+        {
+            switch (note.Type)
+            {
+                case NotifyType.Success:
+                    successMessages.Add(note.Message);
+                    break;
+                case NotifyType.Error:
+                    errorMessages.Add(note.Message);
+                    break;
+                case NotifyType.Warning:
+                    warningMessages.Add(note.Message);
+                    break;
+
+            }
+        }
     }
-    if (ViewData[$"nop.notifications.{NotifyType.Warning}"] != null)
+
+    //Get messages from session
+    foreach (var note in Context.Session.Get<IList<NotifyData>>(NopMessageDefaults.NotificationListKey) ?? new List<NotifyData>())
     {
-        warningMessages.AddRange(ViewData[$"nop.notifications.{NotifyType.Warning}"] as IList<string>);
+        switch (note.Type)
+        {
+            case NotifyType.Success:
+                successMessages.Add(note.Message);
+                break;
+            case NotifyType.Error:
+                errorMessages.Add(note.Message);
+                break;
+            case NotifyType.Warning:
+                warningMessages.Add(note.Message);
+                break;
+
+        }
     }
+
+    Context.Session.Remove(NopMessageDefaults.NotificationListKey);
+
 }
 @if (successMessages.Count > 0)
 {

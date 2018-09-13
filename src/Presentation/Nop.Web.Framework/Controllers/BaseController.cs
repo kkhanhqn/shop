@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
-using Nop.Services.Messages;
 using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.Filters;
@@ -51,13 +50,6 @@ namespace Nop.Web.Framework.Controllers
             var actionContextAccessor = HttpContext.RequestServices.GetService(typeof(IActionContextAccessor)) as IActionContextAccessor;
             if (actionContextAccessor == null)
                 throw new Exception("IActionContextAccessor cannot be resolved");
-
-            //If notification list is defined, they are extracted from context and added to a controller
-            if (HttpContext.Items[NopMessageDefaults.NotificationListKey] is IList<NotifyData>)
-            {
-                foreach (var note in (IList<NotifyData>)HttpContext.Items[NopMessageDefaults.NotificationListKey])
-                    AddNotification(note.Type, note.Message, note.PersistForTheNextRequest);
-            }
 
             var context = actionContextAccessor.ActionContext;
 
@@ -172,34 +164,6 @@ namespace Nop.Web.Framework.Controllers
         #endregion
 
         #region Notifications
-
-        /// <summary>
-        /// Display notification
-        /// </summary>
-        /// <param name="type">Notification type</param>
-        /// <param name="message">Message</param>
-        /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        protected virtual void AddNotification(NotifyType type, string message, bool persistForTheNextRequest)
-        {
-            var dataKey = $"nop.notifications.{type}";
-
-            if (persistForTheNextRequest)
-            {
-                //1. Compare with null (first usage)
-                //2. For some unknown reasons sometimes List<string> is converted to string[]. And it throws exceptions. That's why we reset it
-                if (TempData[dataKey] == null || !(TempData[dataKey] is List<string>))
-                    TempData[dataKey] = new List<string>();
-                ((List<string>)TempData[dataKey]).Add(message);
-            }
-            else
-            {
-                //1. Compare with null (first usage)
-                //2. For some unknown reasons sometimes List<string> is converted to string[]. And it throws exceptions. That's why we reset it
-                if (ViewData[dataKey] == null || !(ViewData[dataKey] is List<string>))
-                    ViewData[dataKey] = new List<string>();
-                ((List<string>)ViewData[dataKey]).Add(message);
-            }
-        }
 
         /// <summary>
         /// Error's JSON data for kendo grid

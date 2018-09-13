@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
+using Newtonsoft.Json;
 
 namespace Nop.Services
 {
@@ -48,6 +50,33 @@ namespace Nop.Services
         public static SelectList ToSelectList<T>(this T objList, Func<BaseEntity, string> selector) where T : IEnumerable<BaseEntity>
         {
             return new SelectList(objList.Select(p => new { ID = p.Id, Name = selector(p) }), "ID", "Name");
+        }
+
+        /// <summary>
+        /// Set a typed value to a session
+        /// </summary>
+        /// <typeparam name="T">Value type</typeparam>
+        /// <param name="session">session</param>
+        /// <param name="key">Key</param>
+        /// <param name="value">Value</param>
+        public static void Set<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        /// <summary>
+        /// Get a typed value from a session
+        /// </summary>
+        /// <typeparam name="T">Value type</typeparam>
+        /// <param name="session">Session</param>
+        /// <param name="key">Key</param>
+        /// <returns>Deserialized value</returns>
+        public static T Get<T>(this ISession session, string key)
+        {
+            var serialized = session.GetString(key);
+
+            //Trying to deserialize session string
+            return serialized == null ? default(T) : JsonConvert.DeserializeObject<T>(serialized);
         }
     }
 }
