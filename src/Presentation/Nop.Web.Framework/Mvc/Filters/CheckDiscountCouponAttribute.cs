@@ -40,7 +40,6 @@ namespace Nop.Web.Framework.Mvc.Filters
             private readonly ICustomerService _customerService;
             private readonly IDiscountService _discountService;
             private readonly IWorkContext _workContext;
-            private readonly INotificationService _notificationService;
 
             #endregion
 
@@ -48,12 +47,10 @@ namespace Nop.Web.Framework.Mvc.Filters
 
             public CheckDiscountCouponFilter(ICustomerService customerService,
                 IDiscountService discountService,
-                INotificationService notificationService,
                 IWorkContext workContext)
             {
                 this._customerService = customerService;
                 this._discountService = discountService;
-                this._notificationService = notificationService;
                 this._workContext = workContext;
             }
 
