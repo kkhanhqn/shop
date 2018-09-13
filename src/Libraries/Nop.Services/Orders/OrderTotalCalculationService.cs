@@ -1421,6 +1421,9 @@ namespace Nop.Services.Orders
 
             //Get total shopping card only with allowed items include taxes
             var filteredCartTotalBase = GetShoppingCartTotal(allowedCart, out decimal _, out List<DiscountForCaching> _, out List<AppliedGiftCard> _, out int _, out decimal _);
+            if (!filteredCartTotalBase.HasValue)
+                return decimal.Zero;
+
             return CalculateApplicableOrderTotalForRewardPoints(orderShippingInclTax, filteredCartTotalBase.Value);
         }
 
