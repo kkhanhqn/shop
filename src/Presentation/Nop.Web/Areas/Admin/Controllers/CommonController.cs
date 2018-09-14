@@ -182,7 +182,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 catch (Exception exc)
                 {
-                    _notificationService.ErrorNotification(exc, false);
+                    _notificationService.ErrorNotification(exc);
                 }
             }
 

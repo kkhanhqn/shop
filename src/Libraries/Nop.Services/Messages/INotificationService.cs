@@ -14,7 +14,7 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        void SuccessNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null);
+        void SuccessNotification(string message, HttpContext context = null);
 
         /// <summary>
         /// Display warning notification
@@ -22,7 +22,7 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        void WarningNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null);
+        void WarningNotification(string message, HttpContext context = null);
 
         /// <summary>
         /// Display error notification
@@ -30,7 +30,7 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        void ErrorNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null);
+        void ErrorNotification(string message, HttpContext context = null);
 
         /// <summary>
         /// Display error notification
@@ -39,6 +39,6 @@ namespace Nop.Services.Messages
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="logException">A value indicating whether exception should be logged</param>
         /// <param name="context">HttpContext</param>
-        void ErrorNotification(Exception exception, bool persistForTheNextRequest = true, bool logException = true, HttpContext context = null);
+        void ErrorNotification(Exception exception, bool logException = true, HttpContext context = null);
     }
 }

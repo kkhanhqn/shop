@@ -1164,7 +1164,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             //notify admin that CSS bundling is not allowed in virtual directories
             if (model.SeoSettings.EnableCssBundling && this.HttpContext.Request.PathBase.HasValue)
-                _notificationService.WarningNotification(_localizationService.GetResource("Admin.Configuration.Settings.GeneralCommon.EnableCssBundling.Warning"), false);
+                _notificationService.WarningNotification(_localizationService.GetResource("Admin.Configuration.Settings.GeneralCommon.EnableCssBundling.Warning"));
 
             return View(model);
         }

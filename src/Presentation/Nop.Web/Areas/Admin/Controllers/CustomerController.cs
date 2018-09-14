@@ -317,7 +317,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(customerRolesError))
             {
                 ModelState.AddModelError(string.Empty, customerRolesError);
-                _notificationService.ErrorNotification(customerRolesError, false);
+                _notificationService.ErrorNotification(customerRolesError);
             }
 
             // Ensure that valid email address is entered if Registered role is checked to avoid registered customers with empty email address
@@ -326,7 +326,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 ModelState.AddModelError(string.Empty, _localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
 
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
             }
 
             //custom customer attributes
@@ -533,7 +533,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(customerRolesError))
             {
                 ModelState.AddModelError(string.Empty, customerRolesError);
-                _notificationService.ErrorNotification(customerRolesError, false);
+                _notificationService.ErrorNotification(customerRolesError);
             }
 
             // Ensure that valid email address is entered if Registered role is checked to avoid registered customers with empty email address
@@ -541,7 +541,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 !CommonHelper.IsValidEmail(model.Email))
             {
                 ModelState.AddModelError(string.Empty, _localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.ValidEmailRequiredRegisteredRole"));
             }
 
             //custom customer attributes
@@ -753,7 +753,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 }
                 catch (Exception exc)
                 {
-                    _notificationService.ErrorNotification(exc.Message, false);
+                    _notificationService.ErrorNotification(exc.Message);
                 }
             }
 

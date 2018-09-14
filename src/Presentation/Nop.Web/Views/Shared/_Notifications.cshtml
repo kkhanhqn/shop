@@ -5,27 +5,6 @@
     var errorMessages = new List<string>();
     var warningMessages = new List<string>();
 
-    //Get messages from temporary storage
-    if (Context.Items[NopMessageDefaults.NotificationListKey] is IList<NotifyData>)
-    {
-        foreach (var note in (IList<NotifyData>)Context.Items[NopMessageDefaults.NotificationListKey])
-        {
-            switch (note.Type)
-            {
-                case NotifyType.Success:
-                    successMessages.Add(note.Message);
-                    break;
-                case NotifyType.Error:
-                    errorMessages.Add(note.Message);
-                    break;
-                case NotifyType.Warning:
-                    warningMessages.Add(note.Message);
-                    break;
-
-            }
-        }
-    }
-
     //Get messages from TempData
     if (TempData[NopMessageDefaults.NotificationListKey] is IList<NotifyData>)
     {

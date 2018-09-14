@@ -719,7 +719,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -749,7 +749,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
                 foreach (var error in errors)
-                    _notificationService.ErrorNotification(error, false);
+                    _notificationService.ErrorNotification(error);
 
                 return View(model);
             }
@@ -758,7 +758,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -794,7 +794,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -824,7 +824,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
                 foreach (var error in errors)
-                    _notificationService.ErrorNotification(error, false);
+                    _notificationService.ErrorNotification(error);
 
                 return View(model);
             }
@@ -833,7 +833,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -869,7 +869,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -899,7 +899,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
                 foreach (var error in errors)
-                    _notificationService.ErrorNotification(error, false);
+                    _notificationService.ErrorNotification(error);
 
                 return View(model);
             }
@@ -908,7 +908,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -944,7 +944,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -1018,7 +1018,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 model = _orderModelFactory.PrepareOrderModel(model, order);
 
                 foreach (var error in errors)
-                    _notificationService.ErrorNotification(error, false);
+                    _notificationService.ErrorNotification(error);
 
                 return View(model);
             }
@@ -1027,7 +1027,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 model = _orderModelFactory.PrepareOrderModel(model, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -1073,7 +1073,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 model = _orderModelFactory.PrepareOrderModel(model, order);
 
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
                 return View(model);
             }
         }
@@ -1528,7 +1528,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             var model = _orderModelFactory.PrepareOrderModel(null, order);
 
             foreach (var warning in updateOrderParameters.Warnings)
-                _notificationService.WarningNotification(warning, false);
+                _notificationService.WarningNotification(warning);
 
             //selected tab
             SaveSelectedTabName(persistForTheNextRequest: false);
@@ -1569,7 +1569,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 //prepare model
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Orders.OrderItem.DeleteAssociatedGiftCardRecordError"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Orders.OrderItem.DeleteAssociatedGiftCardRecordError"));
 
                 //selected tab
                 SaveSelectedTabName(persistForTheNextRequest: false);
@@ -1607,7 +1607,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var model = _orderModelFactory.PrepareOrderModel(null, order);
 
                 foreach (var warning in updateOrderParameters.Warnings)
-                    _notificationService.WarningNotification(warning, false);
+                    _notificationService.WarningNotification(warning);
 
                 //selected tab
                 SaveSelectedTabName(persistForTheNextRequest: false);

@@ -224,7 +224,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             if (!CommonHelper.IsValidEmail(model.SendTestEmailTo))
             {
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.WrongEmail"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.WrongEmail"));
                 return View(model);
             }
 
@@ -237,11 +237,11 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var body = "Email works fine.";
                 _emailSender.SendEmail(emailAccount, subject, body, emailAccount.Email, emailAccount.DisplayName, model.SendTestEmailTo, null);
 
-                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.EmailAccounts.SendTestEmail.Success"), false);
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.EmailAccounts.SendTestEmail.Success"));
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(exc.Message, false);
+                _notificationService.ErrorNotification(exc.Message);
             }
 
             //prepare model

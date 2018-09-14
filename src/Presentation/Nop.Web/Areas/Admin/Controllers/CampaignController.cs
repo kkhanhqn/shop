@@ -223,7 +223,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             //ensure that the entered email is valid
             if (!CommonHelper.IsValidEmail(model.TestEmail))
             {
-                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.WrongEmail"), false);
+                _notificationService.ErrorNotification(_localizationService.GetResource("Admin.Common.WrongEmail"));
                 return View(model);
             }
 
@@ -243,13 +243,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     _campaignService.SendCampaign(campaign, emailAccount, model.TestEmail);
                 }
 
-                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.TestEmailSentToCustomers"), false);
+                _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Promotions.Campaigns.TestEmailSentToCustomers"));
 
                 return View(model);
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
             }
 
             //prepare model
@@ -285,13 +285,13 @@ namespace Nop.Web.Areas.Admin.Controllers
                     isActive: true);
                 var totalEmailsSent = _campaignService.SendCampaign(campaign, emailAccount, subscriptions);
 
-                _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.Promotions.Campaigns.MassEmailSentToCustomers"), totalEmailsSent), false);
+                _notificationService.SuccessNotification(string.Format(_localizationService.GetResource("Admin.Promotions.Campaigns.MassEmailSentToCustomers"), totalEmailsSent));
 
                 return View(model);
             }
             catch (Exception exc)
             {
-                _notificationService.ErrorNotification(exc, false);
+                _notificationService.ErrorNotification(exc);
             }
 
             //prepare model

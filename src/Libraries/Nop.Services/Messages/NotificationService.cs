@@ -44,9 +44,9 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        public virtual void ErrorNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
+        public virtual void ErrorNotification(string message, HttpContext context = null)
         {
-            AddNotification(context, NotifyType.Error, message, persistForTheNextRequest);
+            PrepareTempData(context ?? _httpContextAccessor.HttpContext, NotifyType.Error, message);
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace Nop.Services.Messages
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="logException">A value indicating whether exception should be logged</param>
         /// <param name="context">HttpContext</param>
-        public virtual void ErrorNotification(Exception exception, bool persistForTheNextRequest = true, bool logException = true, HttpContext context = null)
+        public virtual void ErrorNotification(Exception exception, bool logException = true, HttpContext context = null)
         {
             if (logException)
                 LogException(exception);
 
-            ErrorNotification(exception.Message, persistForTheNextRequest, context);
+            ErrorNotification(exception.Message, context);
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        public virtual void SuccessNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
+        public virtual void SuccessNotification(string message, HttpContext context = null)
         {
-            AddNotification(context, NotifyType.Success, message, persistForTheNextRequest);
+            PrepareTempData(context ?? _httpContextAccessor.HttpContext, NotifyType.Success, message);
         }
 
         /// <summary>
@@ -81,56 +81,14 @@ namespace Nop.Services.Messages
         /// <param name="message">Message</param>
         /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
         /// <param name="context">HttpContext</param>
-        public virtual void WarningNotification(string message, bool persistForTheNextRequest = true, HttpContext context = null)
+        public virtual void WarningNotification(string message, HttpContext context = null)
         {
-            AddNotification(context, NotifyType.Warning, message, persistForTheNextRequest);
+            PrepareTempData(context ?? _httpContextAccessor.HttpContext, NotifyType.Warning, message);
         }
 
         #endregion
 
         #region Utilities
-
-        /// <summary>
-        /// Add notification
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="type">Notification type (success/warning/error)</param>
-        /// <param name="message">Message</param>
-        /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        protected virtual void AddNotification(HttpContext context, NotifyType type, string message, bool persistForTheNextRequest)
-        {
-            //If a message should be persisted for the next request, it saved into a session
-            if (persistForTheNextRequest)
-                PrepareTempData(context ?? _httpContextAccessor.HttpContext, type, message);
-            else
-                PrepareContext(context ?? _httpContextAccessor.HttpContext, type, message);
-        }
-
-        /// <summary>
-        /// Add message information to HttpContext
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="type">Notification type (success/warning/error)</param>
-        /// <param name="message">Message</param>
-        /// <param name="persistForTheNextRequest">A value indicating whether a message should be persisted for the next request</param>
-        protected virtual void PrepareContext(HttpContext context, NotifyType type, string message)
-        {
-            //Initialize list of messages if dictionary value is null
-            if (context.Items[NopMessageDefaults.NotificationListKey] == null)
-                context.Items[NopMessageDefaults.NotificationListKey] = new List<NotifyData>();
-
-            //Return if dictionary key is busy
-            if (!(context.Items[NopMessageDefaults.NotificationListKey] is IList<NotifyData>))
-                return;
-
-            //Add message info into the dictionary
-            ((IList<NotifyData>)context.Items[NopMessageDefaults.NotificationListKey]).Add(
-                new NotifyData
-                {
-                    Type = type,
-                    Message = message,
-                });
-        }
 
         /// <summary>
         /// Save message into TempData
