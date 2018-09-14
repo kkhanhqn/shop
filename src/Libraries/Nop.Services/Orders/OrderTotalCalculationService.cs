@@ -1434,13 +1434,7 @@ namespace Nop.Services.Orders
         /// <returns>Applicable order total</returns>
         public virtual decimal CalculateApplicableOrderTotalForRewardPoints(Order order)
         {
-            //Get order total price excluding disallowed items
-            var orderTotal = order.OrderTotal - order.OrderItems
-            .Where(item => !item.Product.ConsiderWhenAwardingPoints)
-            .Select(item => item.PriceInclTax)
-            .Sum();
-
-            return CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, orderTotal);
+            return CalculateApplicableOrderTotalForRewardPoints(order.OrderShippingInclTax, order.OrderTotalForRewardPoints);
         }
 
         /// <summary>

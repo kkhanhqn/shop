@@ -146,3 +146,19 @@ GO
 
 ALTER TABLE [Product] ALTER COLUMN [ConsiderWhenAwardingPoints] bit NOT NULL
 GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[Order]') and NAME='OrderTotalForRewardPoints')
+BEGIN
+	ALTER TABLE [Order]
+	ADD [OrderTotalForRewardPoints] decimal(18, 4) NULL
+END
+GO
+
+UPDATE [Order]
+SET [OrderTotalForRewardPoints] = [OrderTotal]
+WHERE [OrderTotalForRewardPoints] IS NULL
+GO
+
+ALTER TABLE [Order] ALTER COLUMN [OrderTotalForRewardPoints] decimal(18, 4) NOT NULL
+GO

@@ -158,6 +158,11 @@ namespace Nop.Core.Domain.Orders
         public decimal OrderTotal { get; set; }
 
         /// <summary>
+        /// Gets or sets the order total for reward points
+        /// </summary>
+        public decimal OrderTotalForRewardPoints { get; set; }
+
+        /// <summary>
         /// Gets or sets the refunded amount
         /// </summary>
         public decimal RefundedAmount { get; set; }

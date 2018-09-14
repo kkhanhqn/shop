@@ -361,6 +361,11 @@ namespace Nop.Services.Orders
             /// Order total
             /// </summary>
             public decimal OrderTotal { get; set; }
+
+            /// <summary>
+            /// Order total for reward points
+            /// </summary>
+            public decimal OrderTotalForRewardPoints { get; set; }
         }
 
         #endregion
@@ -576,6 +581,14 @@ namespace Nop.Services.Orders
 
             //order total (and applied discounts, gift cards, reward points)
             var orderTotal = _orderTotalCalculationService.GetShoppingCartTotal(details.Cart, out var orderDiscountAmount, out var orderAppliedDiscounts, out var appliedGiftCards, out var redeemedRewardPoints, out var redeemedRewardPointsAmount);
+
+            //order total for calculating reward points
+            var cartForAwardingPoints = details.Cart.Where(item => item.Product.ConsiderWhenAwardingPoints).ToList();
+            var orderTotalForRewardPoints = decimal.Zero;
+            if (cartForAwardingPoints.Any())
+                orderTotalForRewardPoints = _orderTotalCalculationService.GetShoppingCartTotal(cartForAwardingPoints, out _, out _, out _, out _, out _).Value;
+
+
             if (!orderTotal.HasValue)
                 throw new NopException("Order total couldn't be calculated");
 
@@ -584,6 +597,7 @@ namespace Nop.Services.Orders
             details.RedeemedRewardPointsAmount = redeemedRewardPointsAmount;
             details.AppliedGiftCards = appliedGiftCards;
             details.OrderTotal = orderTotal.Value;
+            details.OrderTotalForRewardPoints = orderTotalForRewardPoints;
 
             //discount history
             foreach (var disc in orderAppliedDiscounts)
@@ -758,6 +772,7 @@ namespace Nop.Services.Orders
                 TaxRates = details.TaxRates,
                 OrderTax = details.OrderTaxTotal,
                 OrderTotal = details.OrderTotal,
+                OrderTotalForRewardPoints = details.OrderTotalForRewardPoints,
                 RefundedAmount = decimal.Zero,
                 OrderDiscount = details.OrderDiscountAmount,
                 CheckoutAttributeDescription = details.CheckoutAttributeDescription,
