@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Nop.Core;
 using Nop.Services.Logging;
 
@@ -15,6 +16,7 @@ namespace Nop.Services.Messages
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
+        private readonly ITempDataDictionaryFactory _tempDataDictionaryFactory;
         private readonly IWorkContext _workContext;
 
         #endregion
@@ -23,10 +25,12 @@ namespace Nop.Services.Messages
 
         public NotificationService(IHttpContextAccessor httpContextAccessor,
             ILogger logger,
+            ITempDataDictionaryFactory tempDataDictionaryFactory,
             IWorkContext workContext)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _tempDataDictionaryFactory = tempDataDictionaryFactory;
             _workContext = workContext;
         }
 
@@ -97,7 +101,7 @@ namespace Nop.Services.Messages
         {
             //If a message should be persisted for the next request, it saved into a session
             if (persistForTheNextRequest)
-                PrepareSession(context ?? _httpContextAccessor.HttpContext, type, message);
+                PrepareTempData(context ?? _httpContextAccessor.HttpContext, type, message);
             else
                 PrepareContext(context ?? _httpContextAccessor.HttpContext, type, message);
         }
@@ -129,20 +133,31 @@ namespace Nop.Services.Messages
         }
 
         /// <summary>
-        /// Save message into session
+        /// Save message into TempData
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <param name="type">Notification type</param>
         /// <param name="message">Message</param>
-        protected virtual void PrepareSession(HttpContext context, NotifyType type, string message)
+        protected virtual void PrepareTempData(HttpContext context, NotifyType type, string message)
         {
-            var msgList = context.Session.Get<IList<NotifyData>>(NopMessageDefaults.NotificationListKey) ?? new List<NotifyData>();
-            msgList.Add(new NotifyData
+            ITempDataDictionary tempData = _tempDataDictionaryFactory.GetTempData(context);
+
+            //If key undefined, create empty list
+            if (tempData[NopMessageDefaults.NotificationListKey] == null)
+                tempData[NopMessageDefaults.NotificationListKey] = new List<NotifyData>();
+
+            //If key already exists, return
+            if (!(tempData[NopMessageDefaults.NotificationListKey] is IList<NotifyData>))
+                return;
+
+            var lst = (IList<NotifyData>)tempData[NopMessageDefaults.NotificationListKey];
+            lst.Add(new NotifyData
             {
                 Message = message,
                 Type = type
             });
-            context.Session.Set<IList<NotifyData>>(NopMessageDefaults.NotificationListKey, msgList);
+
+            tempData[NopMessageDefaults.NotificationListKey] = lst;
         }
 
         /// <summary>
