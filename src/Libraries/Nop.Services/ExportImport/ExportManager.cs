@@ -572,6 +572,7 @@ namespace Nop.Services.ExportImport
             var orderItemProperties = new[]
             {
                 new PropertyByName<OrderItem>("Name", oi => oi.Product.Name),
+                new PropertyByName<OrderItem>("WarehouseId", oi => oi.Product.WarehouseId),
                 new PropertyByName<OrderItem>("Sku", oi => oi.Product.Sku),
                 new PropertyByName<OrderItem>("PriceExclTax", oi => oi.UnitPriceExclTax),
                 new PropertyByName<OrderItem>("PriceInclTax", oi => oi.UnitPriceInclTax),
@@ -1396,6 +1397,7 @@ namespace Nop.Services.ExportImport
                             xmlWriter.WriteString("Id", orderItem.Id);
                             xmlWriter.WriteString("OrderItemGuid", orderItem.OrderItemGuid);
                             xmlWriter.WriteString("Name", orderItem.Product.Name);
+                            xmlWriter.WriteString("WarehouseId", orderItem.Product.WarehouseId);
                             xmlWriter.WriteString("Sku", orderItem.Product.Sku);
                             xmlWriter.WriteString("PriceExclTax", orderItem.UnitPriceExclTax);
                             xmlWriter.WriteString("PriceInclTax", orderItem.UnitPriceInclTax);
